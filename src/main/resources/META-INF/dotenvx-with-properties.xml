@@ -1,5 +1,12 @@
 <idea-plugin>
     <depends>com.intellij.properties</depends>
     <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.declarativeInlayProvider language="Properties"
+                                              implementationClass="com.github.linuxchina.dotenvx.hints.DotenvxPropertiesInlayHintsProvider"
+                                              isEnabledByDefault="true"
+                                              group="VALUES_GROUP"
+                                              providerId="dotenvx.implicit.properties"
+                                              bundle="messages.DotenvxBundle"
+                                              nameKey="dotenvx.implicit.value.inlay.provider.name"/>
     </extensions>
 </idea-plugin>
