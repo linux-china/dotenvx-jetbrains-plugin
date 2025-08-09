@@ -11,7 +11,7 @@ making it easier to work with sensitive data without exposing it directly in the
 Features:
 
 - Inlay hints for encrypted variables in `.env` and `.properties` files
-- Create an encrypted variable from the editor's popup menu or Generate menu
+- Create an encrypted variable from the editor's popup menu or `Generate` menu
 
 <!-- Plugin description end -->
 
@@ -24,10 +24,10 @@ Features:
 
 - Using JetBrains Marketplace:
 
-  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID) and install it by clicking
+  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/28148-dotenvx) and install it by clicking
   the <kbd>Install to ...</kbd> button in case your IDE is running.
 
-  You can also download the [latest release](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID/versions) from
+  You can also download the [latest release](https://plugins.jetbrains.com/plugin/28148-dotenvx/versions) from
   JetBrains Marketplace and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
