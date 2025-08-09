@@ -1,21 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" role="img" aria-label=".ENV icon with lock">
-  <title>.ENV with lock</title>
-  <desc>Yellow background, lock icon in the upper-right corner, and .ENV text at the bottom.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" role="img" aria-labelledby="title">
+  <title>.ENV badge with lock</title>
 
   <!-- Background -->
-  <rect width="80" height="80" fill="#FFEB3B"/>
+  <rect width="40" height="40" fill="yellow"/>
 
-  <!-- Lock (upper-right) -->
-  <g transform="translate(56,6)" stroke="#212121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Shackle -->
-    <path d="M6 12 C6 6, 18 6, 18 12" fill="none"/>
-    <!-- Body -->
-    <rect x="2" y="12" width="16" height="12" rx="3" fill="#FFFFFF"/>
-    <!-- Keyhole -->
-    <circle cx="10" cy="18" r="1.2" fill="#212121" stroke="none"/>
-    <rect x="9.4" y="19.4" width="1.2" height="2.8" rx="0.6" fill="#212121" stroke="none"/>
-  </g>
+  <!-- Lock icon (top-right corner) -->
+  <!-- Shackle -->
+  <rect x="29" y="4" width="8" height="6" rx="3" ry="3" fill="none" stroke="#000" stroke-width="2"/>
+  <!-- Body -->
+  <rect x="27" y="9" width="12" height="10" rx="2" fill="#000"/>
 
   <!-- Text at bottom -->
-  <text x="40" y="70" text-anchor="middle" font-family="monospace" font-size="20" font-weight="700" fill="#212121">.ENV</text>
+  <text x="20" y="34" text-anchor="middle" font-family="monospace" font-size="10" fill="#000">.ENV</text>
 </svg>
