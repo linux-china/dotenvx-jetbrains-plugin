@@ -27,7 +27,7 @@
                 text="Add Encrypted Variable"
                 description="Add encrypted variable to the end of file">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
         </action>
     </actions>
 </idea-plugin>
