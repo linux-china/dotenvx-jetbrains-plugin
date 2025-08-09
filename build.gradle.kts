@@ -31,6 +31,8 @@ repositories {
 
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
+    implementation("org.mvnsearch:dotenvx-java:0.1.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
     testImplementation(libs.junit)
     testImplementation(libs.opentest4j)
 
@@ -46,6 +48,10 @@ dependencies {
 
         testFramework(TestFrameworkType.Platform)
     }
+}
+
+configurations.implementation {
+    exclude(group = "com.fasterxml.jackson.core", module = "jackson-databind")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
