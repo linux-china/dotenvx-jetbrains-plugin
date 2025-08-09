@@ -12,17 +12,18 @@ import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
+import com.intellij.ui.components.JBTextField
+import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
-import com.intellij.ui.components.JBTextField
 
 /**
  * Action to add a key=value entry to the end of a .env or .properties file.
  */
-class AddKeyValueAction : AnAction("Add Key-Value", "Add key/value with encrypted mode", null), DumbAware {
+class AddKeyValueAction : AnAction(), DumbAware {
 
     override fun getActionUpdateThread(): ActionUpdateThread {
         return ActionUpdateThread.BGT
@@ -45,7 +46,7 @@ class AddKeyValueAction : AnAction("Add Key-Value", "Add key/value with encrypte
 
         val fileName = psiFile.name
         if (fileName.startsWith(".env")) {
-            key = key.uppercase()
+            key = key.replace("-", "_").replace(".", "_").uppercase()
         }
         val value = dialog.value
         if (key.isEmpty() || value.isEmpty()) {
@@ -115,7 +116,7 @@ private class KeyValueDialog(project: Project) : DialogWrapper(project) {
         c.gridx = 0
         c.gridy = 0
         c.anchor = java.awt.GridBagConstraints.WEST
-        c.insets = java.awt.Insets(4, 0, 4, 8)
+        c.insets = JBUI.insets(4, 0, 4, 8)
         form.add(JLabel("Key:"), c)
         c.gridx = 1
         c.weightx = 1.0
