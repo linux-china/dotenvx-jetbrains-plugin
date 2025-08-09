@@ -11,7 +11,7 @@ making it easier to work with sensitive data without exposing it directly in the
 Features:
 
 - Inlay hints for encrypted variables in `.env` and `.properties` files
-- Create an encrypted variable from the editor's popup menu
+- Create an encrypted variable from the editor's popup menu or Generate menu
 
 <!-- Plugin description end -->
 
@@ -41,4 +41,6 @@ Features:
 
 # References
 
+* [Dotenvx](https://dotenvx.com/)
+* [dotenvx-rs](https://github.com/linux-china/dotenvx-rs): Dotenvx CLI written in Rust
 * Inlay Hints: https://plugins.jetbrains.com/docs/intellij/inlay-hints.html
