@@ -139,7 +139,8 @@ private class KeyValueDialog(project: Project) : DialogWrapper(project) {
         return panel
     }
 
-    fun focusOnKey() {
-        keyField.requestFocusInWindow()
+    override fun getPreferredFocusedComponent(): JComponent {
+        return keyField
     }
+
 }
