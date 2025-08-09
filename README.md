@@ -8,6 +8,11 @@ by [Dotenvx](https://dotenvx.com/).
 With this plugin, and decrypted values will be displayed as inlay hints in the editor,
 making it easier to work with sensitive data without exposing it directly in the code.
 
+Features:
+
+- Inlay hints for encrypted variables in `.env` and `.properties` files
+- Create an encrypted variable from the editor's popup menu
+
 <!-- Plugin description end -->
 
 ## Installation
