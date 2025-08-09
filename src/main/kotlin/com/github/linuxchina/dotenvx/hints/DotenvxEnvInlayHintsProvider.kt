@@ -1,15 +1,15 @@
 package com.github.linuxchina.dotenvx.hints
 
+import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.intellij.codeInsight.hints.declarative.*
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.project.guessProjectDir
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.endOffset
-import io.github.cdimascio.dotenv.Dotenv
-import io.github.cdimascio.dotenv.DotenvxBuilder
+import io.github.cdimascio.ecies.Ecies
 import ru.adelf.idea.dotenv.psi.DotEnvValue
-
 
 /**
  * Inlay hints provider for .env files that shows decrypted values for encrypted variables.
@@ -25,10 +25,21 @@ class DotenvxEnvInlayHintsProvider : InlayHintsProvider, DumbAware {
         if (!(fileName == ".env" || fileName.startsWith(".env."))) {
             return null
         }
-        val directory = file.virtualFile?.parent?.path ?: return null
+        var publicKey: String? = null
+        file.text.lines().forEach { line ->
+            if (line.startsWith("DOTENV_PUBLIC_KEY")) {
+                publicKey = line.substringAfter('=').trim().trim('"', '\'')
+            }
+        }
         if (file.text.contains("encrypted:")) {
-            val dotenv = DotenvxBuilder().directory(directory).filename(fileName).load()
-            return DotenvxEnvCollector(dotenv)
+            val profileName: String? = if (fileName.startsWith(".env.")) {
+                fileName.substringAfter(".env.")
+            } else {
+                null
+            }
+            val projectDir = file.project.guessProjectDir()?.path!!
+            val privateKey = DotenvxEncryptor.getDotenvxPrivateKey(projectDir, profileName, publicKey)
+            return DotenvxEnvCollector(privateKey)
         }
         return null
     }
@@ -36,19 +47,33 @@ class DotenvxEnvInlayHintsProvider : InlayHintsProvider, DumbAware {
 
 }
 
-class DotenvxEnvCollector(val dotenv: Dotenv) : SharedBypassCollector {
+class DotenvxEnvCollector(val privateKey: String?) :
+    SharedBypassCollector {
 
     override fun collectFromElement(element: PsiElement, sink: InlayTreeSink) {
         if (element is DotEnvValue) {
             if (element.text.contains("encrypted:")) {
-                sink.addPresentation(
-                    InlineInlayPosition(element.endOffset, false), hasBackground = true,
-                ) {
-                    val keyElement = element.prevSibling.prevSibling
-                    val plainValue = dotenv.get(keyElement.text, "")
-                    if (plainValue.isNotEmpty()) {
-                        text(plainValue)
+                if (privateKey.isNullOrEmpty()) {
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                    ) {
+                        text("private key not found!")
                     }
+                    return
+                }
+                try {
+                    Ecies.decrypt(privateKey, element.text!!.substringAfter("encrypted:"))
+                        .let { decryptedValue ->
+                            if (decryptedValue.isNotEmpty()) {
+                                sink.addPresentation(
+                                    InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                                ) {
+                                    text(decryptedValue)
+                                }
+                            }
+                        }
+                } catch (_: Exception) {
+
                 }
             }
         }
