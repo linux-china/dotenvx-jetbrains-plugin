@@ -4,9 +4,11 @@
 
 ## [Unreleased]
 
-## [0.1.0] - 2025-08-10
+## [0.1.1] - 2025-08-12
 
 ### Added
 
 - Inlay hints for encrypted variables in `.env` and `.properties` files
 - Create an encrypted variable from the editor's popup menu
+- Run configuration with Dotenvx support: Java, Node.js, Python, PHP, Ruby, Go.
+
