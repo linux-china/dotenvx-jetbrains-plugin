@@ -8,9 +8,13 @@ class DotenvxCmd(private val workDir: String, private val envFile: String?) {
     fun importEnv(): Map<String, String> {
         val dotenvxVariables: MutableMap<String, String> = mutableMapOf()
         if (Path.of(workDir, envFile ?: ".env").toFile().exists()) {
-            val dotenv = DotenvxBuilder().directory(workDir).filename(envFile).load()
-            dotenv.entries().forEach { entry ->
-                dotenvxVariables[entry.key] = entry.value
+            try {
+                val dotenv = DotenvxBuilder().directory(workDir).filename(envFile).load()
+                dotenv.entries().forEach { entry ->
+                    dotenvxVariables[entry.key] = entry.value
+                }
+            } catch (_: Exception) {
+                // Handle exception if needed, e.g., log it
             }
         }
         return dotenvxVariables
