@@ -6,8 +6,13 @@
 
     <depends>com.intellij.modules.platform</depends>
     <resource-bundle>messages.DotenvxBundle</resource-bundle>
+    <depends optional="true" config-file="dotenvx-goland.xml">org.jetbrains.plugins.go</depends>
     <depends optional="true" config-file="dotenvx-with-properties.xml">com.intellij.properties</depends>
     <depends optional="true" config-file="dotenvx-idea.xml">com.intellij.java</depends>
+    <depends optional="true" config-file="dotenvx-nodejs.xml">NodeJS</depends>
+    <depends optional="true" config-file="dotenvx-python.xml">com.intellij.modules.python</depends>
+    <depends optional="true" config-file="dotenvx-phpstorm.xml">com.jetbrains.php</depends>
+    <depends optional="true" config-file="dotenvx-rubymine.xml">org.jetbrains.plugins.ruby</depends>
 
     <depends>ru.adelf.idea.dotenv</depends>
 

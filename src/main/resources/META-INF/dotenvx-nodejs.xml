@@ -1,0 +1,7 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="JavaScript">
+        <nodeRunConfigurationExtension
+                implementation="com.github.linuxchina.dotenvx.run.configuration.NodeRunConfiguration"
+                id="dotenvxNodeRunConfig"/>
+    </extensions>
+</idea-plugin>

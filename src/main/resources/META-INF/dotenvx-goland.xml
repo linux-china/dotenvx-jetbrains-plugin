@@ -1,0 +1,7 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.goide">
+        <runConfigurationExtension
+                implementation="com.github.linuxchina.dotenvx.run.configuration.GolandRunConfigurationExtension"
+                id="dotenvxGo"/>
+    </extensions>
+</idea-plugin>

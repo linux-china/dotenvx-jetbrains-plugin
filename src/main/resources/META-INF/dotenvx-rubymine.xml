@@ -1,0 +1,7 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="org.jetbrains.plugins.ruby">
+        <runConfigurationExtension
+                implementation="com.github.linuxchina.dotenvx.run.configuration.RubyMineRunConfigurationExtension"
+                id="dotenvxRubyMineRunConfig"/>
+    </extensions>
+</idea-plugin>

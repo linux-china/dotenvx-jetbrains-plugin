@@ -1,0 +1,7 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <phpRunConfigurationExtension
+                implementation="com.github.linuxchina.dotenvx.run.configuration.PHPRunConfigurationExtension"
+                id="dotenvxPHPRunConfig"/>
+    </extensions>
+</idea-plugin>
