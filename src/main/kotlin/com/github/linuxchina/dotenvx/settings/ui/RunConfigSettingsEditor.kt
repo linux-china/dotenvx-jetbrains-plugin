@@ -10,7 +10,7 @@ import com.intellij.openapi.util.Key
 import org.jdom.Element
 import javax.swing.JComponent
 
-class RunConfigSettingsEditor<T : RunConfigurationBase<*>?>(configuration: RunConfigurationBase<*>) :
+class RunConfigSettingsEditor<T : RunConfigurationBase<*>?>() :
     SettingsEditor<T?>() {
     private val editor: RunConfigSettingsPanel = RunConfigSettingsPanel()
 

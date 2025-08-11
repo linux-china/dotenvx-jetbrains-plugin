@@ -12,7 +12,7 @@ import javax.swing.JTextField
 
 class RunConfigSettingsPanel() : JPanel() {
     private val useDotenvxCheckbox: JCheckBox = JCheckBox("Enable Dotenvx")
-    private val envFileName = JTextField(".env File Name")
+    private val envFileName = JTextField(".env")
 
     init {
         val optionsPanel = JPanel()
