@@ -1,14 +1,15 @@
 package com.github.linuxchina.dotenvx.run.configuration
 
 import com.github.linuxchina.dotenvx.settings.DotenvxSettings
+import com.github.linuxchina.dotenvx.settings.ui.RunConfigSettingsEditor
 import com.intellij.execution.RunConfigurationExtension
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.execution.configurations.JavaParameters
 import com.intellij.execution.configurations.RunConfigurationBase
 import com.intellij.execution.configurations.RunnerSettings
 import com.intellij.openapi.options.SettingsEditor
+import com.intellij.openapi.util.NlsContexts
 import org.jdom.Element
-import com.github.linuxchina.dotenvx.settings.ui.RunConfigSettingsEditor
 
 
 class IdeaRunConfigurationExtension : RunConfigurationExtension() {
@@ -50,8 +51,12 @@ class IdeaRunConfigurationExtension : RunConfigurationExtension() {
         RunConfigSettingsEditor.writeExternal(runConfiguration, element)
     }
 
+    override fun getEditorTitle(): @NlsContexts.TabTitle String {
+        return RunConfigSettingsEditor.editorTitle
+    }
+
     override fun <P : RunConfigurationBase<*>?> createEditor(configuration: P & Any): SettingsEditor<P?> {
-        return RunConfigSettingsEditor(configuration)
+        return RunConfigSettingsEditor()
     }
 
     override fun isApplicableFor(p0: RunConfigurationBase<*>): Boolean {
