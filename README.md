@@ -39,6 +39,11 @@ Features:
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 ---
+        
+# Credits
+
+- Better Direnv: https://plugins.jetbrains.com/plugin/19275-better-direnv
+- EnvFile: https://plugins.jetbrains.com/plugin/7861-envfile
 
 # References
 
