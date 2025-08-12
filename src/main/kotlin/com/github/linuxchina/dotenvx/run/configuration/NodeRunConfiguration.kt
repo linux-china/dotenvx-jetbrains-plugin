@@ -11,7 +11,9 @@ import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.javascript.nodejs.execution.AbstractNodeTargetRunProfile
 import com.intellij.javascript.nodejs.execution.runConfiguration.AbstractNodeRunConfigurationExtension
 import com.intellij.javascript.nodejs.execution.runConfiguration.NodeRunConfigurationLaunchSession
+import com.intellij.lang.javascript.buildTools.npm.rc.NpmRunConfiguration
 import com.intellij.openapi.options.SettingsEditor
+import com.intellij.openapi.project.guessProjectDir
 import com.jetbrains.nodejs.run.NodeJsRunConfiguration
 import org.jdom.Element
 
@@ -60,12 +62,22 @@ class NodeRunConfiguration : AbstractNodeRunConfigurationExtension() {
         configuration: AbstractNodeTargetRunProfile,
         environment: ExecutionEnvironment
     ): NodeRunConfigurationLaunchSession? {
-        val config = configuration as NodeJsRunConfiguration
+        if (configuration is NodeJsRunConfiguration) {
 
-        val newEnvs: MutableMap<String, String> = RunConfigSettingsEditor
-            .collectEnv(configuration, config.workingDirectory!!, config.getEnvs())
+            val newEnvs: MutableMap<String, String> = RunConfigSettingsEditor
+                .collectEnv(configuration, configuration.workingDirectory!!, configuration.getEnvs())
 
-        config.envs = newEnvs
+            configuration.envs = newEnvs
+        } else if (configuration is NpmRunConfiguration) {
+            val newEnvs: MutableMap<String, String> = RunConfigSettingsEditor
+                .collectEnv(
+                    configuration,
+                    configuration.project.guessProjectDir()!!.toString(),
+                    configuration.envData.envs
+                )
+            configuration.envData.with(newEnvs)
+        }
+
 
         return null
     }
