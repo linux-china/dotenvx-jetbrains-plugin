@@ -57,7 +57,7 @@ class EncryptPropertiesValueIntention : PsiElementBaseIntentionAction(), DumbAwa
 
     private fun findPublicKeyFromProperties(file: PsiFile): String? {
         file.text.lines().forEach { line ->
-            if (line.startsWith("dotenvx.public.key")) {
+            if (line.startsWith("dotenv.public.key")) {
                 return line.substringAfter("=").trim().trim('"', '\'')
             }
         }

@@ -31,7 +31,7 @@ class DotenvxPropertiesInlayHintsProvider : InlayHintsProvider, DumbAware {
         if (file.text.contains("encrypted:")) {
             var publicKey: String? = null
             file.text.lines().forEach { line ->
-                if (line.startsWith("dotenvx.public.key")) {
+                if (line.startsWith("dotenv.public.key")) {
                     publicKey = line.substringAfter("=").trim().trim('"', '\'')
                 }
             }
