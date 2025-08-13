@@ -1,6 +1,6 @@
 package com.github.linuxchina.dotenvx
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.linuxchina.dotenvx.commands.GlobalKeyStore
 import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.ecies.Ecies
 import java.nio.file.Files
@@ -8,25 +8,14 @@ import java.nio.file.Paths
 import java.util.*
 
 object DotenvxEncryptor {
-    private var objectMapper = ObjectMapper()
     fun getDotenvxPrivateKey(projectDir: String, profileName: String?, publicKeyHex: String?): String? {
         // load the private key from the global store: .env.keys.json
         if (publicKeyHex != null && !publicKeyHex.isEmpty()) {
-            val globalFileStore = Paths.get(System.getProperty("user.home"), ".dotenvx", ".env.keys.json")
-            if (Files.exists(globalFileStore)) {
-                try {
-                    val globalStore: Map<String, Any> =
-                        objectMapper.readValue(
-                            globalFileStore.toFile(),
-                            Map::class.java as Class<Map<String, Any>>
-                        )
-                    if (globalStore.containsKey(publicKeyHex)) {
-                        val keyPair = globalStore[publicKeyHex]
-                        if (keyPair is Map<*, *>) {
-                            return keyPair["private_key"].toString()
-                        }
-                    }
-                } catch (ignore: Exception) {
+            val globalStore: Map<String, Any> = GlobalKeyStore.getGlobalKeyPairs()
+            if (globalStore.containsKey(publicKeyHex)) {
+                val keyPair = globalStore[publicKeyHex]
+                if (keyPair is Map<*, *>) {
+                    return keyPair["private_key"].toString()
                 }
             }
         }
