@@ -1,0 +1,72 @@
+package com.github.linuxchina.dotenvx.intentions
+
+import com.github.linuxchina.dotenvx.DotenvxEncryptor
+import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
+import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiDocumentManager
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
+import com.intellij.psi.util.elementType
+import ru.adelf.idea.dotenv.psi.DotEnvTokenType
+import ru.adelf.idea.dotenv.psi.DotEnvValue
+
+/**
+ * Intention: Encrypt DotEnvValue in .env files using DOTENV_PUBLIC_KEY.
+ * Shown when the file contains DOTENV_PUBLIC_KEY and the value is not already encrypted.
+ */
+class EncryptEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
+
+    override fun getFamilyName(): String = "Dotenvx"
+
+    override fun getText(): String = "Encrypt value with DOTENV_PUBLIC_KEY"
+
+    override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
+        if (element.elementType is DotEnvTokenType && element.parent is DotEnvValue) {
+            val file = element.containingFile ?: return false
+            val fileName = file.name.lowercase()
+            // Only .env or .env.* files (excluding .env.keys)
+            if (!(fileName == ".env" || (fileName.startsWith(".env.") && fileName != ".env.keys"))) return false
+            val plainValue = element.text.trim().trim('"', '\'')
+            // Do not offer if already encrypted
+            if (plainValue.contains("encrypted:")) return false
+            // Require DOTENV_PUBLIC_KEY in file
+            val publicKey = findPublicKey(file) ?: return false
+            return publicKey.isNotEmpty()
+        }
+        return false
+    }
+
+    override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
+        val envValue = element.parent as? DotEnvValue ?: return
+        val file = envValue.containingFile ?: return
+        val publicKey = findPublicKey(file) ?: return
+        val document = PsiDocumentManager.getInstance(project).getDocument(file) ?: return
+        val originalText = envValue.text
+        val plain = originalText.trim().trim('"', '\'')
+        val encrypted = try {
+            DotenvxEncryptor.encrypt(plain, publicKey)
+        } catch (_: Exception) {
+            return
+        }
+        WriteCommandAction.runWriteCommandAction(project) {
+            val range = envValue.textRange
+            document.replaceString(range.startOffset, range.endOffset, encrypted)
+            PsiDocumentManager.getInstance(project).commitDocument(document)
+        }
+    }
+
+    override fun startInWriteAction(): Boolean = true
+
+    private fun findPublicKey(file: PsiFile): String? {
+        // Parse the file text to find DOTENV_PUBLIC_KEY line
+        for (line in file.text.lines()) {
+            if (line.trim().startsWith("DOTENV_PUBLIC_KEY")) {
+                return line.substringAfter('=').trim().trim('"', '\'')
+            }
+        }
+        return null
+    }
+}
