@@ -3,7 +3,7 @@
         <runConfigurationExtension
                 implementation="com.github.linuxchina.dotenvx.run.configuration.PycharmRunConfigurationExtension"
                 id="dotenvxPython"/>
-        <pythonCommandLineTargetEnvironmentProvider
+        <pythonCommandLineEnvironmentProvider
                 implementation="com.github.linuxchina.dotenvx.run.configuration.PycharmEnvironmentProvider"/>
     </extensions>
 </idea-plugin>
