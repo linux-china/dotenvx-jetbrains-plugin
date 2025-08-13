@@ -36,8 +36,8 @@ class InsertPublicKeyAction : AnAction(), DumbAware {
         if (containsPublicKey(psiFile)) return
         val fileName = psiFile.name
         val keyPair = GlobalKeyStore.generateKeyPair()
-        val appName = "app_name"
-        val groupName = "group_name"
+        var appName = "app_name"
+        var groupName = "group_name"
         val profileName: String? = if (fileName.startsWith(".env.")) {
             fileName.substringAfter(".env.")
         } else if (fileName.endsWith(".properties") && fileName.contains("-")) {
@@ -52,6 +52,13 @@ class InsertPublicKeyAction : AnAction(), DumbAware {
         }
         if (fileName.endsWith(".properties")) {
             publicKeyName = publicKeyName.replace('_', '.').lowercase()
+            psiFile.text.lines().forEach { line ->
+                if (line.startsWith("spring.application.name")) {
+                    appName = line.substringAfter("=").trim().trim('"', '\'')
+                } else if (line.startsWith("spring.application.group")) {
+                    groupName = line.substringAfter("=").trim().trim('"', '\'')
+                }
+            }
         }
         val uuid = Generators.timeBasedEpochGenerator().generate().toString()
         val header = if (fileName.endsWith("properties")) {
