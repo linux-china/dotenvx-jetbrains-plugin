@@ -36,5 +36,11 @@
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <add-to-group group-id="GenerateGroup" anchor="last"/>
         </action>
+        <action id="dotenvx.InsertPublicKey"
+                class="com.github.linuxchina.dotenvx.actions.InsertPublicKeyAction"
+                text="Insert Public Key"
+                description="Insert public key at the head of the file if missing">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
