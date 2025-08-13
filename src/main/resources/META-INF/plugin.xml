@@ -25,6 +25,11 @@
                                               providerId="dotenvx.implicit.dotenv"
                                               bundle="messages.DotenvxBundle"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EncryptEnvValueIntention</className>
+            <category>Dotenvx</category>
+            <language>DotEnv</language>
+        </intentionAction>
     </extensions>
 
     <actions>
