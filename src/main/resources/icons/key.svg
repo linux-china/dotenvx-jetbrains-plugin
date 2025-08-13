@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Centered key on yellow">
+  <title>Key on yellow</title>
+  <desc>Yellow square background with a centered key icon.</desc>
+
+  <!-- Background -->
+  <rect width="16" height="16" fill="#FFEB3B"/>
+
+  <!-- Centered key -->
+  <g stroke="#212121" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#FFFFFF">
+    <!-- Bow -->
+    <circle cx="6" cy="8" r="2.2"/>
+    <!-- Bow hole (knockout) -->
+    <circle cx="6" cy="8" r="1" fill="#FFEB3B" stroke="none"/>
+
+    <!-- Shaft -->
+    <rect x="8" y="7.4" width="5" height="1.2" rx="0.6"/>
+
+    <!-- Teeth -->
+    <rect x="10.2" y="9" width="1.2" height="1" rx="0.2"/>
+    <rect x="11.8" y="8.6" width="1.6" height="1.2" rx="0.2"/>
+  </g>
+</svg>
