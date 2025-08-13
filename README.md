@@ -14,6 +14,8 @@ Features:
 - Create an encrypted variable from the editor's popup menu or `Generate` menu
 - Run configuration with Dotenvx support: Java, Node.js, Python, PHP, Ruby, Go.
 - Terminal environment customizer to load variables from .env by Dotenvx
+- Generate and update public key for normal `.env` and `.properties` files from `Generat` popup menu
+- Intention action to encrypt a variable in the editor
 
 <!-- Plugin description end -->
 
@@ -40,7 +42,7 @@ Features:
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 ---
-        
+
 # Credits
 
 - Better Direnv: https://plugins.jetbrains.com/plugin/19275-better-direnv
@@ -51,4 +53,5 @@ Features:
 * [Dotenvx](https://dotenvx.com/)
 * [dotenvx-rs](https://github.com/linux-china/dotenvx-rs): Dotenvx CLI written in Rust
 * Inlay Hints: https://plugins.jetbrains.com/docs/intellij/inlay-hints.html
-* Plugin Compatibility with IntelliJ Platform Products: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+* Plugin Compatibility with IntelliJ Platform
+  Products: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
