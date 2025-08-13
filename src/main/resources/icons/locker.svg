@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Lock on yellow">
+  <title>Lock on yellow</title>
+  <desc>Yellow square background with a centered lock icon.</desc>
+  <rect width="16" height="16" fill="#FFEB3B"/>
+  <g fill="none" stroke="#212121" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 7 C6 5, 10 5, 10 7" />
+    <rect x="4.5" y="7" width="7" height="5.5" rx="1.2" fill="#FFFFFF" />
+    <circle cx="8" cy="9.8" r="0.6" fill="#212121" stroke="none"/>
+    <rect x="7.6" y="10" width="0.8" height="1.8" fill="#212121" />
+  </g>
+</svg>
