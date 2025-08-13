@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.cdimascio.ecies.Ecies
 import java.io.File
 import java.nio.file.Paths
-import java.util.*
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+
 
 object GlobalKeyStore {
     var objectMapper = ObjectMapper()
@@ -39,11 +41,13 @@ object GlobalKeyStore {
         // read $HOME/.dotenvx/.env.keys.json and append the keyPair
         val globalStore = getGlobalKeyPairs().toMutableMap()
         if (!globalStore.containsKey(keyPair.publicKey)) {
+            val now = ZonedDateTime.now()
+            val timestampText = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX"))
             globalStore[keyPair.publicKey] = mapOf(
                 "public_key" to keyPair.publicKey,
                 "private_key" to keyPair.privateKey,
                 "profile" to keyPair.profile,
-                "timestamp" to Date(),
+                "timestamp" to timestampText,
                 "path" to keyPair.path
             )
         }
