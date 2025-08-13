@@ -13,6 +13,7 @@ Features:
 - Inlay hints for encrypted variables in `.env` and `.properties` files
 - Create an encrypted variable from the editor's popup menu or `Generate` menu
 - Run configuration with Dotenvx support: Java, Node.js, Python, PHP, Ruby, Go.
+- Terminal environment customizer to load variables from .env by Dotenvx
 
 <!-- Plugin description end -->
 
@@ -50,3 +51,4 @@ Features:
 * [Dotenvx](https://dotenvx.com/)
 * [dotenvx-rs](https://github.com/linux-china/dotenvx-rs): Dotenvx CLI written in Rust
 * Inlay Hints: https://plugins.jetbrains.com/docs/intellij/inlay-hints.html
+* Plugin Compatibility with IntelliJ Platform Products: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
