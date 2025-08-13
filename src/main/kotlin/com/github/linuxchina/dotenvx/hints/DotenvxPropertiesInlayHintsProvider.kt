@@ -10,8 +10,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.endOffset
 import io.github.cdimascio.ecies.Ecies
-import java.io.StringReader
-import java.util.*
 
 
 /**
@@ -31,14 +29,14 @@ class DotenvxPropertiesInlayHintsProvider : InlayHintsProvider, DumbAware {
             return null
         }
         if (file.text.contains("encrypted:")) {
-            val properties = Properties().apply {
-                load(StringReader(file.text))
-            }
             var publicKey: String? = null
-            properties.forEach { (key, value) ->
-                if (key.toString().startsWith("dotenvx.public.key")) {
-                    publicKey = value.toString()
+            file.text.lines().forEach { line ->
+                if (line.startsWith("dotenvx.public.key")) {
+                    publicKey = line.substringAfter("=").trim().trim('"', '\'')
                 }
+            }
+            if (publicKey.isNullOrEmpty()) {
+                return null
             }
             val profileName: String? = if (fileName.contains("-")) {
                 fileName.substringAfterLast("-").substringBefore(".properties")
