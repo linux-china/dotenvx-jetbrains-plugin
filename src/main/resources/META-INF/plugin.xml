@@ -13,6 +13,7 @@
     <depends optional="true" config-file="dotenvx-python.xml">com.intellij.modules.python</depends>
     <depends optional="true" config-file="dotenvx-phpstorm.xml">com.jetbrains.php</depends>
     <depends optional="true" config-file="dotenvx-rubymine.xml">org.jetbrains.plugins.ruby</depends>
+    <depends optional="true" config-file="dotenvx-terminal.xml">org.jetbrains.plugins.terminal</depends>
 
     <depends>ru.adelf.idea.dotenv</depends>
 
