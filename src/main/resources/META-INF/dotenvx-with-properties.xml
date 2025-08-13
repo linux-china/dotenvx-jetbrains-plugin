@@ -8,5 +8,10 @@
                                               providerId="dotenvx.implicit.properties"
                                               bundle="messages.DotenvxBundle"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EncryptPropertiesValueIntention</className>
+            <category>Dotenvx</category>
+            <language>Properties</language>
+        </intentionAction>
     </extensions>
 </idea-plugin>
