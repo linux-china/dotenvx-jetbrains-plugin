@@ -61,7 +61,7 @@ class InsertPublicKeyAction : AnAction(), DumbAware {
             }
         }
         val uuid = Generators.timeBasedEpochGenerator().generate().toString()
-        val header = if (fileName.endsWith("properties")) {
+        val header = if (fileName.endsWith(".properties")) {
             """# ---
 # uuid: $uuid
 # name: $appName
