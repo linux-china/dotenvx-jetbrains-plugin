@@ -31,7 +31,7 @@ class DotenvxEnvInlayHintsProvider : InlayHintsProvider, DumbAware {
                 publicKey = line.substringAfter('=').trim().trim('"', '\'')
             }
         }
-        if (file.text.contains("encrypted:")) {
+        if (file.text.contains("encrypted:") || file.text.contains("DOTENV_PUBLIC_KEY")) {
             val profileName: String? = if (fileName.startsWith(".env.")) {
                 fileName.substringAfter(".env.")
             } else {
@@ -39,7 +39,7 @@ class DotenvxEnvInlayHintsProvider : InlayHintsProvider, DumbAware {
             }
             val projectDir = file.project.guessProjectDir()?.path!!
             val privateKey = DotenvxEncryptor.getDotenvxPrivateKey(projectDir, profileName, publicKey)
-            return DotenvxEnvCollector(privateKey)
+            return DotenvxEnvCollector(publicKey, privateKey)
         }
         return null
     }
@@ -47,12 +47,13 @@ class DotenvxEnvInlayHintsProvider : InlayHintsProvider, DumbAware {
 
 }
 
-class DotenvxEnvCollector(val privateKey: String?) :
+class DotenvxEnvCollector(val publicKey: String?, val privateKey: String?) :
     SharedBypassCollector {
 
     override fun collectFromElement(element: PsiElement, sink: InlayTreeSink) {
         if (element is DotEnvValue) {
-            if (element.text.contains("encrypted:")) {
+            val text = element.text
+            if (text.contains("encrypted:")) {
                 if (privateKey.isNullOrEmpty()) {
                     sink.addPresentation(
                         InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
@@ -74,6 +75,20 @@ class DotenvxEnvCollector(val privateKey: String?) :
                         }
                 } catch (_: Exception) {
 
+                }
+            } else if (publicKey != null && text.contains(publicKey)) {
+                if (privateKey.isNullOrEmpty()) {
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                    ) {
+                        text("Private key not found!")
+                    }
+                } else {
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                    ) {
+                        text("Private key: ${privateKey.take(6)}...")
+                    }
                 }
             }
         }

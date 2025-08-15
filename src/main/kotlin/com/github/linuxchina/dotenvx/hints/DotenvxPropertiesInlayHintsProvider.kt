@@ -28,7 +28,7 @@ class DotenvxPropertiesInlayHintsProvider : InlayHintsProvider, DumbAware {
         if (!(fileName.endsWith(".properties"))) {
             return null
         }
-        if (file.text.contains("encrypted:")) {
+        if (file.text.contains("encrypted:") || file.text.contains("dotenv.public.key")) {
             var publicKey: String? = null
             file.text.lines().forEach { line ->
                 if (line.startsWith("dotenv.public.key")) {
@@ -45,14 +45,14 @@ class DotenvxPropertiesInlayHintsProvider : InlayHintsProvider, DumbAware {
             }
             val projectDir = file.project.guessProjectDir()?.path!!
             val privateKey = DotenvxEncryptor.getDotenvxPrivateKey(projectDir, profileName, publicKey)
-            return DotenvxPropertiesCollector(privateKey)
+            return DotenvxPropertiesCollector(publicKey, privateKey)
         }
         return null
     }
 }
 
 
-class DotenvxPropertiesCollector(val privateKey: String?) : SharedBypassCollector {
+class DotenvxPropertiesCollector(val publicKey: String?, val privateKey: String?) : SharedBypassCollector {
 
     override fun collectFromElement(element: PsiElement, sink: InlayTreeSink) {
         if (element is Property) {
@@ -79,7 +79,20 @@ class DotenvxPropertiesCollector(val privateKey: String?) : SharedBypassCollecto
                 } catch (_: Exception) {
 
                 }
-
+            } else if (publicKey != null && element.value?.contains(publicKey) == true) {
+                if (privateKey.isNullOrEmpty()) {
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                    ) {
+                        text("private key not found!")
+                    }
+                } else {
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                    ) {
+                        text("Private key: ${privateKey.take(6)}...")
+                    }
+                }
             }
         }
     }
