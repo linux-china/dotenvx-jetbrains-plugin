@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [0.1.3] - 2025-08-15
+
+### Added
+
+- Create new `Dotenvx file` from `New` menu
+- Inlay hints for public key in `.env` and `.properties` files
+
 ## [0.1.2] - 2025-08-12
 
 ### Added
