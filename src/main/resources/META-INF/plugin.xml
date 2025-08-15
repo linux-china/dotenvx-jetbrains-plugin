@@ -48,5 +48,12 @@
                 description="Insert public key at the head of the file if missing">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
         </action>
+        <action id="dotenvx.NewDotenvxFile"
+                class="com.github.linuxchina.dotenvx.actions.NewDotenvxFileAction"
+                icon="/icons/key.svg"
+                text="Dotenvx File..."
+                description="Create an .env/properties file by Dotenvx">
+            <add-to-group group-id="NewGroup" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
