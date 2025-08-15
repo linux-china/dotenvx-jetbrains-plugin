@@ -45,6 +45,25 @@ object DotenvxEncryptor {
         return privateKey
     }
 
+    fun getPublicKeyName(fileName: String): String {
+        val profileName: String? = if (fileName.startsWith(".env.")) {
+            fileName.substringAfter(".env.")
+        } else if (fileName.endsWith(".properties") && fileName.contains("-")) {
+            fileName.substringBeforeLast(".properties").substringAfterLast("-")
+        } else {
+            null
+        }
+        var publicKeyName = if (profileName != null) {
+            "DOTENV_PUBLIC_KEY_${profileName.uppercase()}"
+        } else {
+            "DOTENV_PUBLIC_KEY"
+        }
+        if (fileName.endsWith(".properties")) {
+            publicKeyName = publicKeyName.replace('_', '.').lowercase()
+        }
+        return publicKeyName
+    }
+
     fun encrypt(text: String, publicKey: String): String {
         Ecies.encrypt(publicKey, text).let { encrypted ->
             return "encrypted:${encrypted}"
