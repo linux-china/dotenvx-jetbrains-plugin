@@ -10,6 +10,7 @@ making it easier to work with sensitive data without exposing it directly in the
 
 Features:
 
+- Create new `Dotenvx .env/properties file` from `New` menu
 - Inlay hints for encrypted variables in `.env` and `.properties` files
 - Create an encrypted variable from the editor's popup menu or `Generate` menu
 - Run configuration with Dotenvx support: Java, Node.js, Python, PHP, Ruby, Go.
