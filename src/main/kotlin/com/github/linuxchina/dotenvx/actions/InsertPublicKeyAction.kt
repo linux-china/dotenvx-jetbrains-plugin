@@ -11,6 +11,7 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
+import com.github.linuxchina.dotenvx.DotenvxEncryptor
 
 /**
  * Insert public at the head of .env or .properties file if not present.
@@ -38,20 +39,8 @@ class InsertPublicKeyAction : AnAction(), DumbAware {
         val keyPair = GlobalKeyStore.generateKeyPair()
         var appName = "app_name"
         var groupName = "group_name"
-        val profileName: String? = if (fileName.startsWith(".env.")) {
-            fileName.substringAfter(".env.")
-        } else if (fileName.endsWith(".properties") && fileName.contains("-")) {
-            fileName.substringBeforeLast(".properties").substringAfterLast("-")
-        } else {
-            null
-        }
-        var publicKeyName = if (profileName != null) {
-            "DOTENV_PUBLIC_KEY_${profileName.uppercase()}"
-        } else {
-            "DOTENV_PUBLIC_KEY"
-        }
+        val publicKeyName = DotenvxEncryptor.getPublicKeyName(fileName)
         if (fileName.endsWith(".properties")) {
-            publicKeyName = publicKeyName.replace('_', '.').lowercase()
             psiFile.text.lines().forEach { line ->
                 if (line.startsWith("spring.application.name")) {
                     appName = line.substringAfter("=").trim().trim('"', '\'')
