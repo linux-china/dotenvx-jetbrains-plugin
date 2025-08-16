@@ -25,7 +25,7 @@ class PycharmRunConfigurationExtension : PythonRunConfigurationExtension() {
         return RunConfigSettingsEditor<PythonRunConfiguration>() as SettingsEditor<P?>
     }
 
-    override fun getEditorTitle(): @NlsContexts.TabTitle String? {
+    override fun getEditorTitle(): @NlsContexts.TabTitle String {
         return RunConfigSettingsEditor.editorTitle
     }
 
@@ -48,9 +48,14 @@ class PycharmRunConfigurationExtension : PythonRunConfigurationExtension() {
     ) {
         val dotenvxSettings: DotenvxSettings? =
             configuration.getCopyableUserData<DotenvxSettings?>(RunConfigSettingsEditor.USER_DATA_KEY)
-        val newEnvs: MutableMap<String, String> =
+        val dotenvVariables: MutableMap<String, String> =
             RunConfigSettingsEditor.collectEnv(dotenvxSettings, configuration.workingDirectory)
+        val envs = mutableMapOf<String, String>().apply {
+            putAll(configuration.envs)
+            putAll(dotenvVariables)
+        }
+        configuration.envs = envs
+        cmdLine.environment.putAll(dotenvVariables)
 
-        cmdLine.withEnvironment(newEnvs)
     }
 }
