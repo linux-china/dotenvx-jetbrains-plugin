@@ -2,39 +2,32 @@ package com.github.linuxchina.dotenvx.run.configuration
 
 import com.github.linuxchina.dotenvx.settings.DotenvxSettings
 import com.github.linuxchina.dotenvx.settings.ui.RunConfigSettingsEditor
-import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.projectRoots.SdkAdditionalData
 import com.jetbrains.python.run.AbstractPythonRunConfiguration
-import com.jetbrains.python.run.PythonCommandLineEnvironmentProvider
+import com.jetbrains.python.run.PythonExecution
 import com.jetbrains.python.run.PythonRunParams
-import java.util.function.Consumer
+import com.jetbrains.python.run.target.HelpersAwareTargetEnvironmentRequest
+import com.jetbrains.python.run.target.PythonCommandLineTargetEnvironmentProvider
 
-class PycharmEnvironmentProvider : PythonCommandLineEnvironmentProvider {   //PythonCommandLineTargetEnvironmentProvider
+@Suppress("UnstableApiUsage")
+class PycharmEnvironmentProvider :
+    PythonCommandLineTargetEnvironmentProvider {   //PythonCommandLineTargetEnvironmentProvider
 
-    override fun extendEnvironment(
+    override fun extendTargetEnvironment(
         project: Project,
-        sdkAdditionalData: SdkAdditionalData,
-        generalCommandLine: GeneralCommandLine,
-        pythonRunParams: PythonRunParams
+        helpersAwareTargetRequest: HelpersAwareTargetEnvironmentRequest,
+        pythonExecution: PythonExecution,
+        runParams: PythonRunParams
     ) {
-        if (pythonRunParams !is AbstractPythonRunConfiguration<*>) {
+        if (runParams !is AbstractPythonRunConfiguration<*>) {
             return
         }
         val dotenvxSettings: DotenvxSettings? =
-            pythonRunParams.getCopyableUserData<DotenvxSettings?>(RunConfigSettingsEditor.USER_DATA_KEY)
+            runParams.getCopyableUserData<DotenvxSettings?>(RunConfigSettingsEditor.USER_DATA_KEY)
         val dotenvxVariables: MutableMap<String, String> =
-            RunConfigSettingsEditor.collectEnv(dotenvxSettings, pythonRunParams.workingDirectory)
-        val envs = mutableMapOf<String, String>().apply {
-            putAll(pythonRunParams.envs)
-            putAll(dotenvxVariables)
-        }
-        pythonRunParams.envs = envs
-    }
-
-    private fun addEnvironmentVariableToPythonExecution(generalCommandLine: GeneralCommandLine): Consumer<MutableMap.MutableEntry<String, String>> {
-        return Consumer { entry: MutableMap.MutableEntry<String, String> ->
-            generalCommandLine.environment[entry.key] = entry.value
+            RunConfigSettingsEditor.collectEnv(dotenvxSettings, runParams.workingDirectory)
+        for (entry in dotenvxVariables.entries) {
+            pythonExecution.addEnvironmentVariable(entry.key, entry.value)
         }
     }
 }
