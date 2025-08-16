@@ -63,7 +63,7 @@ class DotenvxEnvCollector(val publicKey: String?, val privateKey: String?) :
                     return
                 }
                 try {
-                    Ecies.decrypt(privateKey, element.text!!.substringAfter("encrypted:"))
+                    DotenvxEncryptor.decrypt(privateKey, element.text)
                         .let { decryptedValue ->
                             if (decryptedValue.isNotEmpty()) {
                                 sink.addPresentation(

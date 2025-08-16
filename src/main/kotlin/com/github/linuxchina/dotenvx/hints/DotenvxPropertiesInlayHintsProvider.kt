@@ -9,7 +9,6 @@ import com.intellij.openapi.project.guessProjectDir
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.endOffset
-import io.github.cdimascio.ecies.Ecies
 
 
 /**
@@ -66,7 +65,7 @@ class DotenvxPropertiesCollector(val publicKey: String?, val privateKey: String?
                     return
                 }
                 try {
-                    Ecies.decrypt(privateKey, element.value!!.substringAfter("encrypted:"))
+                    DotenvxEncryptor.decrypt(privateKey, element.value!!)
                         .let { decryptedValue ->
                             if (decryptedValue.isNotEmpty()) {
                                 sink.addPresentation(
