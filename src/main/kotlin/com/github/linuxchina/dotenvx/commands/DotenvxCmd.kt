@@ -1,5 +1,6 @@
 package com.github.linuxchina.dotenvx.commands
 
+import io.github.cdimascio.dotenv.Dotenv.Filter
 import io.github.cdimascio.dotenv.DotenvxBuilder
 import java.io.File
 import java.nio.file.Path
@@ -15,17 +16,24 @@ class DotenvxCmd(private val workDir: String, private val envFileName: String?) 
                 dotenv.entries().forEach { entry ->
                     dotenvxVariables[entry.key] = entry.value
                 }
-            } catch (_: Exception) {
-                // Handle exception if needed, e.g., log it
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-        } else if (Path.of(workDir, envFileName ?: ".env").toFile().exists()) {
-            try {
-                val dotenv = DotenvxBuilder().directory(workDir).filename(envFileName).load()
-                dotenv.entries().forEach { entry ->
-                    dotenvxVariables[entry.key] = entry.value
+        } else {
+            val newWorkDir = if (workDir.startsWith("file://")) {
+                Path.of(workDir.removePrefix("file://")).toAbsolutePath().toString()
+            } else {
+                Path.of(workDir).toAbsolutePath().toString()
+            }
+            if (Path.of(newWorkDir, envFileName ?: ".env").toFile().exists()) {
+                try {
+                    val dotenv = DotenvxBuilder().directory(workDir).filename(envFileName).load()
+                    dotenv.entries(Filter.DECLARED_IN_ENV_FILE).forEach { entry ->
+                        dotenvxVariables[entry.key] = entry.value
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch (_: Exception) {
-                // Handle exception if needed, e.g., log it
             }
         }
         return dotenvxVariables
