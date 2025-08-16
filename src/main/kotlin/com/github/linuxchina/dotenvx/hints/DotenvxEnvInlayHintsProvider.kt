@@ -63,7 +63,7 @@ class DotenvxEnvCollector(val publicKey: String?, val privateKey: String?) :
                     return
                 }
                 try {
-                    DotenvxEncryptor.decrypt(privateKey, element.text)
+                    DotenvxEncryptor.decrypt(element.text, privateKey)
                         .let { decryptedValue ->
                             if (decryptedValue.isNotEmpty()) {
                                 sink.addPresentation(
