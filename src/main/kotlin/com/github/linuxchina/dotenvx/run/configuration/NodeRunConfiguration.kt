@@ -65,7 +65,7 @@ class NodeRunConfiguration : AbstractNodeRunConfigurationExtension() {
         if (configuration is NodeJsRunConfiguration) {
 
             val newEnvs: MutableMap<String, String> = RunConfigSettingsEditor
-                .collectEnv(configuration, configuration.workingDirectory!!, configuration.getEnvs())
+                .collectEnv(configuration, configuration.workingDirectory!!, configuration.envs)
 
             configuration.envs = newEnvs
         } else if (configuration is NpmRunConfiguration) {
