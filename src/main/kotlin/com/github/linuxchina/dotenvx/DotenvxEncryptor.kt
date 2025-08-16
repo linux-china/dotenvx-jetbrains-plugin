@@ -71,6 +71,11 @@ object DotenvxEncryptor {
     }
 
     fun decrypt(cipherText: String, privateKey: String): String {
-        return Ecies.decrypt(privateKey, cipherText.substringAfter("encrypted:"))
+        val cleanPrivateKey = if (privateKey.length > 64) {
+            privateKey.substring(privateKey.length - 64)
+        } else {
+            privateKey
+        }
+        return Ecies.decrypt(cleanPrivateKey, cipherText.substringAfter("encrypted:"))
     }
 }
