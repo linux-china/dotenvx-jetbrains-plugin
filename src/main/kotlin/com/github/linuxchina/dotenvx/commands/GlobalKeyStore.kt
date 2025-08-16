@@ -13,9 +13,14 @@ object GlobalKeyStore {
 
     fun generateKeyPair(): KeyPair {
         val ecKeyPair = Ecies.generateEcKeyPair()
+        var privateKeyHex = ecKeyPair.privateHex
+        if (privateKeyHex.length > 64) {
+            // If the private key is longer than 64 characters, we truncate it to 64 characters
+            privateKeyHex = privateKeyHex.substring(privateKeyHex.length - 64)
+        }
         return KeyPair(
             publicKey = ecKeyPair.getPublicHex(true),
-            privateKey = ecKeyPair.privateHex
+            privateKey = privateKeyHex
         )
     }
 
