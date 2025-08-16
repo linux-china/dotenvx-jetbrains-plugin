@@ -3,6 +3,7 @@
         <runConfigurationExtension
                 implementation="com.github.linuxchina.dotenvx.run.configuration.PycharmRunConfigurationExtension"
                 id="dotenvxPython"/>
+        <!--suppress PluginXmlValidity -->
         <pythonCommandLineTargetEnvironmentProvider
                 implementation="com.github.linuxchina.dotenvx.run.configuration.PycharmEnvironmentProvider"/>
 
