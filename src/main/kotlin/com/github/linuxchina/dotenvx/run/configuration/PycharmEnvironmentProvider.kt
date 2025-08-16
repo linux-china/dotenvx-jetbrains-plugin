@@ -9,7 +9,6 @@ import com.jetbrains.python.run.AbstractPythonRunConfiguration
 import com.jetbrains.python.run.PythonCommandLineEnvironmentProvider
 import com.jetbrains.python.run.PythonRunParams
 import java.util.function.Consumer
-import java.util.stream.Stream
 
 class PycharmEnvironmentProvider : PythonCommandLineEnvironmentProvider {   //PythonCommandLineTargetEnvironmentProvider
 
@@ -26,9 +25,10 @@ class PycharmEnvironmentProvider : PythonCommandLineEnvironmentProvider {   //Py
             pythonRunParams.getCopyableUserData<DotenvxSettings?>(RunConfigSettingsEditor.USER_DATA_KEY)
         val dotenvxVariables: MutableMap<String, String> =
             RunConfigSettingsEditor.collectEnv(dotenvxSettings, pythonRunParams.workingDirectory)
-        val runConfigurationVariables = pythonRunParams.envs
-        Stream.concat(dotenvxVariables.entries.stream(), runConfigurationVariables.entries.stream())
-            .forEach(addEnvironmentVariableToPythonExecution(generalCommandLine))
+        val envs = mutableMapOf<String, String>()
+        envs.putAll(pythonRunParams.envs)
+        envs.putAll(dotenvxVariables)
+        pythonRunParams.envs = envs
     }
 
     private fun addEnvironmentVariableToPythonExecution(generalCommandLine: GeneralCommandLine): Consumer<MutableMap.MutableEntry<String, String>> {
