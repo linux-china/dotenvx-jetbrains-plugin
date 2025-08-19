@@ -33,7 +33,7 @@ repositories {
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
     implementation("org.mvnsearch:dotenvx-java:0.2.1")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.2")
     implementation("com.fasterxml.uuid:java-uuid-generator:5.1.0")
     testImplementation(libs.junit)
     testImplementation(libs.opentest4j)
