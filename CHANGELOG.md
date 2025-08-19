@@ -4,6 +4,19 @@
 
 ## [Unreleased]
 
+## [0.1.5] - 2025-08-19
+
+### Added
+
+- Support new `.env.keys.json` file format
+
+## [0.1.4] - 2025-08-16
+
+### Fixed
+
+- Fixed: working directory with the "file://" prefix
+- Fixed: private key length problem
+
 ## [0.1.3] - 2025-08-15
 
 ### Added
