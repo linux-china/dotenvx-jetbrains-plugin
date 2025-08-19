@@ -1,6 +1,7 @@
 package com.github.linuxchina.dotenvx.commands
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.uuid.Generators
 import io.github.cdimascio.ecies.Ecies
 import java.io.File
 import java.nio.file.Paths
@@ -31,12 +32,15 @@ object GlobalKeyStore {
             return emptyMap()
         }
         try {
-            val globalStore: Map<String, Any> =
+            var keyStore: Map<String, Any> =
                 objectMapper.readValue(
                     keysFile,
                     Map::class.java as Class<Map<String, Any>>
                 )
-            return globalStore
+            if (keyStore.containsKey("version") && keyStore.containsKey("keys")) {
+                keyStore = keyStore["keys"] as Map<String, Any>
+            }
+            return keyStore
         } catch (_: Exception) {
         }
         return emptyMap()
@@ -44,11 +48,22 @@ object GlobalKeyStore {
 
     fun saveKeyPair(keyPair: KeyPair) {
         // read $HOME/.dotenvx/.env.keys.json and append the keyPair
-        val globalStore = getGlobalKeyPairs().toMutableMap()
-        if (!globalStore.containsKey(keyPair.publicKey)) {
+        var globalStore = getGlobalKeyPairs().toMutableMap()
+        var keyStore = mutableMapOf<String, Any>()
+        if (!globalStore.containsKey("version")) {
+            keyStore.putAll(globalStore)
+            globalStore = mutableMapOf()
+            globalStore["version"] = "0.1.0"
+            val metadata = mutableMapOf("uuid" to Generators.timeBasedEpochGenerator().generate().toString())
+            globalStore["metadata"] = metadata
+            globalStore["keys"] = keyStore
+        } else {
+            keyStore = globalStore["keys"] as MutableMap<String, Any>
+        }
+        if (!keyStore.containsKey(keyPair.publicKey)) {
             val now = ZonedDateTime.now()
             val timestampText = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX"))
-            globalStore[keyPair.publicKey] = mapOf(
+            keyStore[keyPair.publicKey] = mapOf(
                 "public_key" to keyPair.publicKey,
                 "private_key" to keyPair.privateKey,
                 "profile" to keyPair.profile,
