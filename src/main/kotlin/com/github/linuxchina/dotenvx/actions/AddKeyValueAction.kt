@@ -1,6 +1,7 @@
 package com.github.linuxchina.dotenvx.actions
 
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
+import com.intellij.lang.properties.psi.PropertiesFile
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -12,6 +13,8 @@ import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
+import com.intellij.ui.components.JBScrollPane
+import com.intellij.ui.components.JBTextArea
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
@@ -59,13 +62,52 @@ class AddKeyValueAction : AnAction(), DumbAware {
         }
         val publicKey =
             psiFile.text.lines().find { it.startsWith(publicKeyName) }?.substringAfter('=')?.trim()?.trim('"', '\'')
-        val line = if (publicKey.isNullOrEmpty()) {
-            "$key=$value"
+        val newValue = if (publicKey.isNullOrEmpty()) {
+            value
         } else {
-            val encryptedValue = DotenvxEncryptor.encrypt(value, publicKey)
-            "$key=$encryptedValue"
+            DotenvxEncryptor.encrypt(value, publicKey)
         }
-        appendLineToFile(project, psiFile, line)
+        if (fileName.endsWith(".properties")) {
+            // Try using PSI for .properties
+            val propertiesFile = psiFile as? PropertiesFile
+            val existing = propertiesFile?.findPropertyByKey(key)
+            if (existing != null) {
+                WriteCommandAction.runWriteCommandAction(project) {
+                    existing.setValue(newValue)
+                }
+            } else {
+                appendLineToFile(project, psiFile, "$key=$newValue")
+            }
+        } else {
+            // .env: update line-based if key exists; otherwise append
+            // escape new value for shell
+            var escapedNewValue = if (newValue.startsWith("encrypted:")) {
+                newValue
+            } else if (newValue.contains("\"")) {
+                "'" + newValue.replace("'", "'\\''") + "'"
+            } else if (newValue.contains("'") || newValue.contains(" ")) {
+                "\"" + newValue.replace("\"", "\\\"") + "\""
+            } else {
+                newValue
+            }
+            if (escapedNewValue.contains('\n')) {
+                escapedNewValue = escapedNewValue.replace("\n", "\\n")
+            }
+            val document = psiFile.fileDocument
+            val kvRegex = Regex("^\\s*" + Regex.escape(key) + "=.*$", RegexOption.MULTILINE)
+            val match = kvRegex.find(document.text)
+            if (match != null) {
+                WriteCommandAction.runWriteCommandAction(project) {
+                    val newLine = "$key=$escapedNewValue"
+                    val start = match.range.first
+                    val end = match.range.last + 1
+                    document.replaceString(start, end, newLine)
+                    PsiDocumentManager.getInstance(project).commitDocument(document)
+                }
+            } else {
+                appendLineToFile(project, psiFile, "$key=$escapedNewValue")
+            }
+        }
     }
 
     private fun isEnvOrProperties(psiFile: PsiFile): Boolean {
@@ -96,13 +138,14 @@ class AddKeyValueAction : AnAction(), DumbAware {
 
 private class KeyValueDialog(project: Project) : DialogWrapper(project) {
     private val keyField = JBTextField()
-    private val valueField = JBTextField()
+    private val valueField = JBTextArea()
 
     val key: String get() = keyField.text
     val value: String get() = valueField.text
 
     init {
         title = "Add Encrypted Key-Value"
+        isResizable = true
         init()
     }
 
@@ -131,9 +174,19 @@ private class KeyValueDialog(project: Project) : DialogWrapper(project) {
         form.add(JLabel("Value:"), c)
         c.gridx = 1
         c.weightx = 1.0
-        c.fill = java.awt.GridBagConstraints.HORIZONTAL
-        valueField.preferredSize = Dimension(480, valueField.preferredSize.height)
-        form.add(valueField, c)
+        c.weighty = 1.0
+        c.fill = java.awt.GridBagConstraints.BOTH
+
+        // Configure textarea to look like a text field initially, but allow multi-line and resizing
+        valueField.lineWrap = true
+        valueField.wrapStyleWord = true
+        // Make it visually similar to text field initially (single-line height)
+        valueField.border = keyField.border
+        valueField.preferredSize = Dimension(480, keyField.preferredSize.height)
+
+        val valueScroll = JBScrollPane(valueField)
+        valueScroll.border = null
+        form.add(valueScroll, c)
 
         panel.add(form, BorderLayout.CENTER)
         return panel
