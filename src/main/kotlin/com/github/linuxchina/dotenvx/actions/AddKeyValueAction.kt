@@ -22,8 +22,6 @@ import java.awt.Dimension
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
-import java.awt.event.FocusAdapter
-import java.awt.event.FocusEvent
 
 /**
  * Action to add a key=value entry to the end of a .env or .properties file.
@@ -83,18 +81,7 @@ class AddKeyValueAction : AnAction(), DumbAware {
         } else {
             // .env: update line-based if key exists; otherwise append
             // escape new value for shell
-            var escapedNewValue = if (newValue.startsWith("encrypted:")) {
-                newValue
-            } else if (newValue.contains("\"")) {
-                "'" + newValue.replace("'", "'\\''") + "'"
-            } else if (newValue.contains("'") || newValue.contains(" ")) {
-                "\"" + newValue.replace("\"", "\\\"") + "\""
-            } else {
-                newValue
-            }
-            if (escapedNewValue.contains('\n')) {
-                escapedNewValue = escapedNewValue.replace("\n", "\\n")
-            }
+            val escapedNewValue = escapeShellValue(newValue)
             val document = psiFile.fileDocument
             val kvRegex = Regex("^\\s*" + Regex.escape(key) + "=.*$", RegexOption.MULTILINE)
             val match = kvRegex.find(document.text)
@@ -135,6 +122,22 @@ class AddKeyValueAction : AnAction(), DumbAware {
             document.insertString(document.textLength, toAppend)
             PsiDocumentManager.getInstance(project).commitDocument(document)
         }
+    }
+
+    fun escapeShellValue(shellValue: String): String {
+        var escapedNewValue = if (shellValue.startsWith("encrypted:")) {
+            shellValue
+        } else if (shellValue.contains("\"")) {
+            "'" + shellValue.replace("'", "'\\''") + "'"
+        } else if (shellValue.contains("'") || shellValue.contains(" ")) {
+            "\"" + shellValue.replace("\"", "\\\"") + "\""
+        } else {
+            shellValue
+        }
+        if (escapedNewValue.contains('\n')) {
+            escapedNewValue = escapedNewValue.replace("\n", "\\n")
+        }
+        return escapedNewValue
     }
 }
 
