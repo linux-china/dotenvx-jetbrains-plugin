@@ -22,6 +22,8 @@ import java.awt.Dimension
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
+import java.awt.event.FocusAdapter
+import java.awt.event.FocusEvent
 
 /**
  * Action to add a key=value entry to the end of a .env or .properties file.
@@ -141,7 +143,7 @@ private class KeyValueDialog(project: Project) : DialogWrapper(project) {
     private val valueField = JBTextArea()
 
     val key: String get() = keyField.text
-    val value: String get() = valueField.text
+    val value: String get() = valueField.text.trimEnd()
 
     init {
         title = "Add Encrypted Key-Value"
