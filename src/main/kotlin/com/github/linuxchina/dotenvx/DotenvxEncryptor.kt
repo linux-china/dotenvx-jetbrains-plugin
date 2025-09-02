@@ -1,6 +1,7 @@
 package com.github.linuxchina.dotenvx
 
 import com.github.linuxchina.dotenvx.commands.GlobalKeyStore
+import com.intellij.psi.PsiFile
 import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.ecies.Ecies
 import java.nio.file.Files
@@ -8,6 +9,17 @@ import java.nio.file.Paths
 import java.util.*
 
 object DotenvxEncryptor {
+
+    fun findPublicKey(file: PsiFile): String? {
+        // Parse the file text to find DOTENV_PUBLIC_KEY line
+        for (line in file.text.lines()) {
+            if (line.startsWith("DOTENV_PUBLIC_KEY") || line.startsWith("dotenv.public.key")) {
+                return line.substringAfter('=').trim().trim('"', '\'')
+            }
+        }
+        return null
+    }
+
     fun getDotenvxPrivateKey(projectDir: String, profileName: String?, publicKeyHex: String?): String? {
         // load the private key from the global store: .env.keys.json
         if (publicKeyHex != null && !publicKeyHex.isEmpty()) {
