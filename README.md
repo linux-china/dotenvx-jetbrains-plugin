@@ -16,7 +16,8 @@ Features:
 - Run configuration with Dotenvx support: Java, Node.js, Python, PHP, Ruby, Go.
 - Terminal environment customizer to load variables from .env by Dotenvx
 - Generate and update public key for normal `.env` and `.properties` files from `Generat` popup menu
-- Intention action to encrypt a variable in the editor
+- Intention action to encrypt plain value in the editor
+- Intention action to edit encrypted value in the editor
 
 <!-- Plugin description end -->
 
