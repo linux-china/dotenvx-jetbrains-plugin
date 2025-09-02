@@ -4,6 +4,19 @@
 
 ## [Unreleased]
 
+## [0.1.7] - 2025-09-02
+
+### Added
+
+- Edit encrypted value by intention action
+
+## [0.1.6] - 2025-08-19
+
+### Added
+
+- Add replacement support when adding new Dotenvx variable
+- Change value to TextArea for new Dotenvx variable
+
 ## [0.1.5] - 2025-08-19
 
 ### Added
