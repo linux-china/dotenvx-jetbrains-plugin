@@ -30,6 +30,11 @@
             <category>Dotenvx</category>
             <language>DotEnv</language>
         </intentionAction>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EditEnvValueIntention</className>
+            <category>Dotenvx</category>
+            <language>DotEnv</language>
+        </intentionAction>
     </extensions>
 
     <actions>
