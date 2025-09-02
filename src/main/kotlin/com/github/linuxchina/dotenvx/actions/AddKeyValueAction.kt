@@ -9,19 +9,9 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
-import com.intellij.ui.components.JBScrollPane
-import com.intellij.ui.components.JBTextArea
-import com.intellij.ui.components.JBTextField
-import com.intellij.util.ui.JBUI
-import java.awt.BorderLayout
-import java.awt.Dimension
-import javax.swing.JComponent
-import javax.swing.JLabel
-import javax.swing.JPanel
 
 /**
  * Action to add a key=value entry to the end of a .env or .properties file.
@@ -43,7 +33,7 @@ class AddKeyValueAction : AnAction(), DumbAware {
         val psiFile = e.getData(CommonDataKeys.PSI_FILE) ?: return
         if (!isEnvOrProperties(psiFile)) return
 
-        val dialog = KeyValueDialog(project)
+        val dialog = KeyValueDialog(project, "Add Encrypted Key-Value", "key", null, null)
         if (!dialog.showAndGet()) return
         var key = dialog.key.trim()
 
@@ -56,12 +46,7 @@ class AddKeyValueAction : AnAction(), DumbAware {
             Messages.showErrorDialog(project, "Key/Value must not be empty", "Invalid Input")
             return
         }
-        var publicKeyName = "DOTENV_PUBLIC_KEY"
-        if (fileName.endsWith(".properties")) {
-            publicKeyName = "dotenv.public.key"
-        }
-        val publicKey =
-            psiFile.text.lines().find { it.startsWith(publicKeyName) }?.substringAfter('=')?.trim()?.trim('"', '\'')
+        val publicKey = DotenvxEncryptor.findPublicKey(psiFile)
         val newValue = if (publicKey.isNullOrEmpty()) {
             value
         } else {
@@ -139,66 +124,4 @@ class AddKeyValueAction : AnAction(), DumbAware {
         }
         return escapedNewValue
     }
-}
-
-private class KeyValueDialog(project: Project) : DialogWrapper(project) {
-    private val keyField = JBTextField()
-    private val valueField = JBTextArea()
-
-    val key: String get() = keyField.text
-    val value: String get() = valueField.text.trimEnd()
-
-    init {
-        title = "Add Encrypted Key-Value"
-        isResizable = true
-        init()
-    }
-
-    override fun createCenterPanel(): JComponent {
-        val panel = JPanel()
-        panel.layout = BorderLayout(0, 8)
-
-        val form = JPanel()
-        form.layout = java.awt.GridBagLayout()
-        val c = java.awt.GridBagConstraints()
-        c.gridx = 0
-        c.gridy = 0
-        c.anchor = java.awt.GridBagConstraints.WEST
-        c.insets = JBUI.insets(4, 0, 4, 8)
-        form.add(JLabel("Key:"), c)
-        c.gridx = 1
-        c.weightx = 1.0
-        c.fill = java.awt.GridBagConstraints.HORIZONTAL
-        keyField.preferredSize = Dimension(480, keyField.preferredSize.height)
-        form.add(keyField, c)
-
-        c.gridx = 0
-        c.gridy = 1
-        c.weightx = 0.0
-        c.fill = java.awt.GridBagConstraints.NONE
-        form.add(JLabel("Value:"), c)
-        c.gridx = 1
-        c.weightx = 1.0
-        c.weighty = 1.0
-        c.fill = java.awt.GridBagConstraints.BOTH
-
-        // Configure textarea to look like a text field initially, but allow multi-line and resizing
-        valueField.lineWrap = true
-        valueField.wrapStyleWord = true
-        // Make it visually similar to text field initially (single-line height)
-        valueField.border = keyField.border
-        valueField.preferredSize = Dimension(480, keyField.preferredSize.height)
-
-        val valueScroll = JBScrollPane(valueField)
-        valueScroll.border = null
-        form.add(valueScroll, c)
-
-        panel.add(form, BorderLayout.CENTER)
-        return panel
-    }
-
-    override fun getPreferredFocusedComponent(): JComponent {
-        return keyField
-    }
-
 }
