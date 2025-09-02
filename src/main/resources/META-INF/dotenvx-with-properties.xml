@@ -13,5 +13,10 @@
             <category>Dotenvx</category>
             <language>Properties</language>
         </intentionAction>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EditPropertiesValueIntention</className>
+            <category>Dotenvx</category>
+            <language>Properties</language>
+        </intentionAction>
     </extensions>
 </idea-plugin>
