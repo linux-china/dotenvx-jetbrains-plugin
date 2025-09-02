@@ -1,6 +1,7 @@
 package com.github.linuxchina.dotenvx.intentions
 
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
+import com.github.linuxchina.dotenvx.DotenvxEncryptor.findPublicKey
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
@@ -8,7 +9,6 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
 import com.intellij.psi.util.elementType
 import ru.adelf.idea.dotenv.psi.DotEnvTokenType
 import ru.adelf.idea.dotenv.psi.DotEnvValue
@@ -41,13 +41,13 @@ class EncryptEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
         val envValue = element.parent as? DotEnvValue ?: return
-        val file = envValue.containingFile ?: return
-        val publicKey = findPublicKey(file) ?: return
-        val document = PsiDocumentManager.getInstance(project).getDocument(file) ?: return
+        val psiFile = envValue.containingFile ?: return
+        val publicKey = findPublicKey(psiFile) ?: return
+        val document = PsiDocumentManager.getInstance(project).getDocument(psiFile) ?: return
         val originalText = envValue.text
-        val plain = originalText.trim().trim('"', '\'')
+        val plainValue = originalText.trim().trim('"', '\'')
         val encrypted = try {
-            DotenvxEncryptor.encrypt(plain, publicKey)
+            DotenvxEncryptor.encrypt(plainValue, publicKey)
         } catch (_: Exception) {
             return
         }
@@ -59,14 +59,4 @@ class EncryptEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
     }
 
     override fun startInWriteAction(): Boolean = true
-
-    private fun findPublicKey(file: PsiFile): String? {
-        // Parse the file text to find DOTENV_PUBLIC_KEY line
-        for (line in file.text.lines()) {
-            if (line.trim().startsWith("DOTENV_PUBLIC_KEY")) {
-                return line.substringAfter('=').trim().trim('"', '\'')
-            }
-        }
-        return null
-    }
 }
