@@ -8,7 +8,6 @@ import com.intellij.openapi.project.guessProjectDir
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.endOffset
-import io.github.cdimascio.ecies.Ecies
 import ru.adelf.idea.dotenv.psi.DotEnvValue
 
 /**
@@ -25,12 +24,7 @@ class DotenvxEnvInlayHintsProvider : InlayHintsProvider, DumbAware {
         if (!(fileName == ".env" || fileName.startsWith(".env."))) {
             return null
         }
-        var publicKey: String? = null
-        file.text.lines().forEach { line ->
-            if (line.startsWith("DOTENV_PUBLIC_KEY")) {
-                publicKey = line.substringAfter('=').trim().trim('"', '\'')
-            }
-        }
+        val publicKey: String? = DotenvxEncryptor.findPublicKey(file)
         if (file.text.contains("encrypted:") || file.text.contains("DOTENV_PUBLIC_KEY")) {
             val profileName: String? = if (fileName.startsWith(".env.")) {
                 fileName.substringAfter(".env.")
