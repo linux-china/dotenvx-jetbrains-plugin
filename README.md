@@ -15,7 +15,7 @@ Features:
 - Create an encrypted variable from the editor's popup menu or `Generate` menu
 - Run configuration with Dotenvx support: Java, Node.js, Python, PHP, Ruby, Go.
 - Terminal environment customizer to load variables from .env by Dotenvx
-- Generate and update public key for normal `.env` and `.properties` files from `Generat` popup menu
+- Generate and update public key for normal `.env` and `.properties` files from `Generate` popup menu
 - Intention action to encrypt plain value in the editor
 - Intention action to edit encrypted value in the editor
 
