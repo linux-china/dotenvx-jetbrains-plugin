@@ -4,6 +4,7 @@ import com.github.linuxchina.dotenvx.commands.GlobalKeyStore
 import com.intellij.psi.PsiFile
 import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.ecies.Ecies
+import org.jetbrains.yaml.YAMLUtil
 import org.jetbrains.yaml.psi.YAMLFile
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -13,10 +14,12 @@ object DotenvxEncryptor {
 
     fun findPublicKey(file: PsiFile): String? {
         if (file is YAMLFile) {
-            for (rawLine in file.text.lines()) {
-                if (rawLine.startsWith("#") && rawLine.contains("dotenv.public.key")) {
-                    return rawLine.substringAfter(':').trim().trim('"', '\'')
-                }
+            val publicKeyElement = YAMLUtil.getQualifiedKeyInFile(file, "dotenv", "public", "key")
+            val text = publicKeyElement?.lastChild?.text
+            return if (text?.contains(":") == true) {
+                text.substringAfter(":").trim()
+            } else {
+                text
             }
         } else {
             for (rawLine in file.text.lines()) {
