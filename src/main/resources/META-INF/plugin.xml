@@ -38,9 +38,19 @@
             <language>DotEnv</language>
         </intentionAction>
         <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EncryptYamlValueIntention</className>
+            <category>Dotenvx</category>
+            <language>yaml</language>
+        </intentionAction>
+        <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EditEnvValueIntention</className>
             <category>Dotenvx</category>
             <language>DotEnv</language>
+        </intentionAction>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EditYamlValueIntention</className>
+            <category>Dotenvx</category>
+            <language>yaml</language>
         </intentionAction>
     </extensions>
 
