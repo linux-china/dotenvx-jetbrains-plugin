@@ -106,8 +106,7 @@ ${publicKeyText.trim()}
     }
 
     private fun containsPublicKey(psiFile: PsiFile): Boolean {
-        val fileText = psiFile.text
-        return fileText.contains("dotenv.public.key") || fileText.contains("DOTENV_PUBLIC_KEY")
+        return !DotenvxEncryptor.findPublicKey(psiFile).isNullOrEmpty()
     }
 
     private fun insertAtHead(project: Project, psiFile: PsiFile, textToInsert: String) {
