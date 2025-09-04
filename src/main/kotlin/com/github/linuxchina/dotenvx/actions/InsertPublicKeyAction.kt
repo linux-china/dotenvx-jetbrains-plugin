@@ -1,6 +1,7 @@
 package com.github.linuxchina.dotenvx.actions
 
 import com.fasterxml.uuid.Generators
+import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.github.linuxchina.dotenvx.commands.GlobalKeyStore
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
@@ -11,7 +12,6 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
-import com.github.linuxchina.dotenvx.DotenvxEncryptor
 
 /**
  * Insert public at the head of .env or .properties file if not present.
@@ -60,16 +60,25 @@ ${publicKeyName}=${keyPair.publicKey}
 
 # Environment variables. MAKE SURE to ENCRYPT them before committing to source control
 """
-        } else {
+        } else if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
             """# ---
+# ${publicKeyName}: ${keyPair.publicKey}                
 # uuid: $uuid
 # name: $appName
 # group: $groupName
 # ---
-${publicKeyName}=${keyPair.publicKey}
 
-# Environment variables. MAKE SURE to ENCRYPT them before committing to source control
 """
+        } else {
+            """# ---
+        # uuid: $uuid
+        # name: $appName
+        # group: $groupName
+        # ---
+        ${publicKeyName}=${keyPair.publicKey}
+        
+        # Environment variables. MAKE SURE to ENCRYPT them before committing to source control
+        """
         }
         insertAtHead(project, psiFile, header)
         keyPair.path = psiFile.virtualFile.path
@@ -78,7 +87,11 @@ ${publicKeyName}=${keyPair.publicKey}
 
     private fun isEnvOrProperties(psiFile: PsiFile): Boolean {
         val name = psiFile.name
-        return name.endsWith(".properties") || name == ".env" || (name.startsWith(".env.") && name != ".env.keys")
+        return name != ".env.keys"
+                && (name.endsWith(".properties")
+                || name.endsWith(".yaml") || name.endsWith(".yml")
+                || name == ".env"
+                || name.startsWith(".env."))
     }
 
     private fun containsPublicKey(psiFile: PsiFile): Boolean {
