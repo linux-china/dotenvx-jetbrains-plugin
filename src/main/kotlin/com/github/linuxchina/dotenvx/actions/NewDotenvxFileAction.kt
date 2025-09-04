@@ -14,6 +14,7 @@ import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VfsUtil
+import com.intellij.openapi.vfs.isFile
 
 /**
  * Create a new dotenvx-related file and insert a public key line based on the file type.
@@ -33,11 +34,14 @@ class NewDotenvxFileAction : AnAction(), DumbAware {
 
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
-        val targetDir = e.getData(LangDataKeys.PROJECT_FILE_DIRECTORY) ?: return
+        var targetDir = e.getData(LangDataKeys.VIRTUAL_FILE) ?: return
+        if (targetDir.isFile) {
+            targetDir = targetDir.parent
+        }
 
         val fileName = Messages.showInputDialog(
             project,
-            "Enter file name (e.g., .env, .env.test or application.properties):",
+            "Enter file name (e.g., .env, .env.test or application.properties, application.yaml):",
             "New Dotenvx File",
             null
         )?.trim()?.takeIf { it.isNotEmpty() } ?: return
