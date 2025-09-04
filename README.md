@@ -10,7 +10,7 @@ making it easier to work with sensitive data without exposing it directly in the
 
 Features:
 
-- Create new `Dotenvx .env/properties file` from `New` menu
+- Create new `Dotenvx .env/properties/yaml file` from `New` menu
 - Inlay hints for encrypted variables in `.env` and `.properties` files
 - Create an encrypted variable from the editor's popup menu or `Generate` menu
 - Run configuration with Dotenvx support: Java, Node.js, Python, PHP, Ruby, Go.
@@ -18,6 +18,7 @@ Features:
 - Generate and update public key for normal `.env` and `.properties` files from `Generate` popup menu
 - Intention action to encrypt plain value in the editor
 - Intention action to edit encrypted value in the editor
+- Native support for Spring Boot `application.properties` or `application.yaml`
 
 <!-- Plugin description end -->
 
