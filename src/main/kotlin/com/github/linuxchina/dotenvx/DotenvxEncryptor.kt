@@ -83,6 +83,10 @@ object DotenvxEncryptor {
             fileName.substringAfter(".env.")
         } else if (fileName.endsWith(".properties") && fileName.contains("-")) {
             fileName.substringBeforeLast(".properties").substringAfterLast("-")
+        } else if (fileName.endsWith(".yaml") && fileName.contains("-")) {
+            fileName.substringBeforeLast(".yaml").substringAfterLast("-")
+        } else if (fileName.endsWith(".yml") && fileName.contains("-")) {
+            fileName.substringBeforeLast(".yml").substringAfterLast("-")
         } else {
             null
         }
@@ -91,7 +95,7 @@ object DotenvxEncryptor {
         } else {
             "DOTENV_PUBLIC_KEY"
         }
-        if (fileName.endsWith(".properties")) {
+        if (fileName.endsWith(".properties") || fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
             publicKeyName = publicKeyName.replace('_', '.').lowercase()
         }
         return publicKeyName
