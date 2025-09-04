@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+## [0.1.8] - 2025-09-04
+
+### Added
+
+- Add YAML support: `application.yaml` is ready for Spring Boot
+
+### Fixed
+
+- Fixed: wrong target directory to create dotenvx file
+
 ## [0.1.7] - 2025-09-02
 
 ### Added
