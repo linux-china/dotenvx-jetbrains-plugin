@@ -24,7 +24,7 @@ class InsertPublicKeyAction : AnAction(), DumbAware {
 
     override fun update(e: AnActionEvent) {
         val psiFile = e.getData(CommonDataKeys.PSI_FILE)
-        val visible = psiFile?.let { isEnvOrProperties(it) } ?: false
+        val visible = psiFile?.let { isEnvOrPropertiesOrYaml(it) } ?: false
         val enabled = visible && !containsPublicKey(psiFile)
         e.presentation.isVisible = visible
         e.presentation.isEnabled = enabled
@@ -33,7 +33,7 @@ class InsertPublicKeyAction : AnAction(), DumbAware {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val psiFile = e.getData(CommonDataKeys.PSI_FILE) ?: return
-        if (!isEnvOrProperties(psiFile)) return
+        if (!isEnvOrPropertiesOrYaml(psiFile)) return
         if (containsPublicKey(psiFile)) return
         val fileName = psiFile.name
         val keyPair = GlobalKeyStore.generateKeyPair()
@@ -85,7 +85,7 @@ ${publicKeyName}=${keyPair.publicKey}
         GlobalKeyStore.saveKeyPair(keyPair)
     }
 
-    private fun isEnvOrProperties(psiFile: PsiFile): Boolean {
+    private fun isEnvOrPropertiesOrYaml(psiFile: PsiFile): Boolean {
         val name = psiFile.name
         return name != ".env.keys"
                 && (name.endsWith(".properties")
