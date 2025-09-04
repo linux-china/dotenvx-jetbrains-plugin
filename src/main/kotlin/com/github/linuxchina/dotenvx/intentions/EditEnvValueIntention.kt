@@ -12,6 +12,8 @@ import com.intellij.openapi.project.guessProjectDir
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
+import org.jetbrains.yaml.psi.YAMLScalar
+import org.jetbrains.yaml.psi.YAMLScalarText
 import ru.adelf.idea.dotenv.psi.DotEnvTokenType
 import ru.adelf.idea.dotenv.psi.DotEnvValue
 
@@ -37,7 +39,7 @@ class EditEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
             // Require DOTENV_PUBLIC_KEY in file
             val publicKey = findPublicKey(psiFile) ?: return false
             val projectDir = psiFile.project.guessProjectDir()?.path!!
-            val profileName: String? = getProfileName(fileName)
+            val profileName: String? = DotenvxEncryptor.getProfileName(fileName)
             val privateKey = DotenvxEncryptor.getDotenvxPrivateKey(projectDir, profileName, publicKey) ?: return false
             return privateKey.isNotEmpty()
         }
@@ -53,7 +55,7 @@ class EditEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
         var encryptedValue = originalText.trim().trim('"', '\'')
         val projectDir = file.project.guessProjectDir()?.path!!
         val fileName = file.name.lowercase()
-        val profileName: String? = getProfileName(fileName)
+        val profileName: String? = DotenvxEncryptor.getProfileName(fileName)
         val privateKey = DotenvxEncryptor.getDotenvxPrivateKey(projectDir, profileName, publicKey)!!
         var plainValue = DotenvxEncryptor.decrypt(encryptedValue, privateKey)
         val keyName = envValue.parent.firstChild.text
@@ -74,12 +76,4 @@ class EditEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
     }
 
     override fun startInWriteAction(): Boolean = false
-
-    fun getProfileName(fileName: String): String? {
-        return if (fileName.startsWith(".env.")) {
-            fileName.substringAfter(".env.")
-        } else {
-            null
-        }
-    }
 }
