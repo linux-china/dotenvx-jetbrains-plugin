@@ -1,6 +1,8 @@
 package com.github.linuxchina.dotenvx.actions
 
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
+import com.github.linuxchina.dotenvx.utils.YamlFileUtils
+import com.github.linuxchina.dotenvx.utils.YamlFileUtils.isYamlOrToml
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -9,7 +11,6 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDocumentManager
-import com.intellij.psi.PsiFile
 
 /**
  * Action to add an encrypted value for YAML or toml
@@ -35,11 +36,7 @@ class AddEncryptedValueAction : AnAction(), DumbAware {
         val document = editor.document
         val caretModel = editor.caretModel
         val offset = caretModel.offset
-        val lineNumber = document.getLineNumber(offset)
-        val lineStartOffset = document.getLineStartOffset(lineNumber)
-        val lineEndOffset = document.getLineEndOffset(lineNumber)
-        var keyName = document.getText(com.intellij.openapi.util.TextRange(lineStartOffset, lineEndOffset))
-        keyName = keyName.trim().trimEnd(':')
+        val keyName = YamlFileUtils.getKeyNameOnLine(editor)
 
         val dialog = KeyValueDialog(project, "Add Encrypted Value", "value", keyName, null)
         dialog.keyField.isEditable = false
@@ -62,11 +59,6 @@ class AddEncryptedValueAction : AnAction(), DumbAware {
             PsiDocumentManager.getInstance(project).commitDocument(document)
         }
 
-    }
-
-    private fun isYamlOrToml(psiFile: PsiFile): Boolean {
-        val name = psiFile.name
-        return name.endsWith(".yaml") || name.endsWith(".yml") || name.endsWith(".toml")
     }
 
 }
