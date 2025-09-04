@@ -5,7 +5,6 @@ import com.intellij.codeInsight.hints.declarative.*
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.guessProjectDir
-import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.endOffset
@@ -42,9 +41,9 @@ class DotenvxYamlInlayHintsProvider : InlayHintsProvider, DumbAware {
 class DotenvxYamlCollector(val publicKey: String, val privateKey: String?) : SharedBypassCollector {
 
     override fun collectFromElement(element: PsiElement, sink: InlayTreeSink) {
-        if (element is YAMLScalar && element.text != null && privateKey != null) {
+        if (element is YAMLScalar && element.text != null) {
             val textValue = element.text
-            if (textValue.startsWith("encrypted:") || textValue.startsWith("\"encrypted:")) {
+            if ((textValue.startsWith("encrypted:") || textValue.startsWith("\"encrypted:")) && privateKey != null) {
                 try {
                     DotenvxEncryptor.decrypt(textValue.trim('"'), privateKey)
                         .let { decryptedValue ->
@@ -59,19 +58,19 @@ class DotenvxYamlCollector(val publicKey: String, val privateKey: String?) : Sha
                 } catch (_: Exception) {
 
                 }
-            }
-        } else if (element is PsiComment && element.text.contains(publicKey)) {
-            if (privateKey.isNullOrEmpty()) {
-                sink.addPresentation(
-                    InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
-                ) {
-                    text("private key not found!")
-                }
-            } else {
-                sink.addPresentation(
-                    InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
-                ) {
-                    text("Private key: ${privateKey.take(6)}...")
+            } else if (textValue == publicKey) {
+                if (privateKey.isNullOrEmpty()) {
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                    ) {
+                        text("private key not found!")
+                    }
+                } else {
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                    ) {
+                        text("Private key: ${privateKey.take(6)}...")
+                    }
                 }
             }
         }
