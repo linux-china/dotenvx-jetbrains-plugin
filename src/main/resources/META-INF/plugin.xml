@@ -53,6 +53,14 @@
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <add-to-group group-id="GenerateGroup" anchor="last"/>
         </action>
+        <action id="dotenvx.AddEncryptedValue"
+                class="com.github.linuxchina.dotenvx.actions.AddEncryptedValueAction"
+                icon="/icons/key-value.svg"
+                text="Add Encrypted Value"
+                description="Add encrypted value at caret">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+        </action>
         <action id="dotenvx.InsertPublicKey"
                 class="com.github.linuxchina.dotenvx.actions.InsertPublicKeyAction"
                 icon="/icons/key.svg"
