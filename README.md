@@ -55,6 +55,7 @@ Features:
 
 * [Dotenvx](https://dotenvx.com/)
 * [dotenvx-rs](https://github.com/linux-china/dotenvx-rs): Dotenvx CLI written in Rust
+* [Dotenvx JetBrains Plugin](https://plugins.jetbrains.com/plugin/28148-dotenvx/): Dotenvx JetBrains IDE plugin
 * Inlay Hints: https://plugins.jetbrains.com/docs/intellij/inlay-hints.html
 * Plugin Compatibility with IntelliJ Platform
   Products: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
