@@ -61,12 +61,23 @@ ${publicKeyName}=${keyPair.publicKey}
 # Environment variables. MAKE SURE to ENCRYPT them before committing to source control
 """
         } else if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
+            val profileName = DotenvxEncryptor.getProfileName(fileName)
+            val publicKeyText = if (profileName == null) {
+                """dotenv:
+  public:
+    key: ${keyPair.publicKey}"""
+            } else {
+                """dotenv:
+  public:
+    key:
+      ${profileName}: ${keyPair.publicKey}"""
+            }
             """# ---
-# ${publicKeyName}: ${keyPair.publicKey}                
 # uuid: $uuid
 # name: $appName
 # group: $groupName
 # ---
+${publicKeyText.trim()}
 
 """
         } else {
