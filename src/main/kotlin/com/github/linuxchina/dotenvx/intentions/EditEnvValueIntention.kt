@@ -25,7 +25,7 @@ class EditEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
 
     override fun getFamilyName(): String = "Dotenvx"
 
-    override fun getText(): String = "Edit encrypted value"
+    override fun getText(): String = "Edit encrypted env value"
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.elementType is DotEnvTokenType && element.parent is DotEnvValue) {

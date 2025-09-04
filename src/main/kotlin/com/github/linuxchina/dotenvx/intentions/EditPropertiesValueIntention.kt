@@ -22,7 +22,7 @@ class EditPropertiesValueIntention : PsiElementBaseIntentionAction(), DumbAware 
 
     override fun getFamilyName(): String = "Dotenvx"
 
-    override fun getText(): String = "Edit encrypted value"
+    override fun getText(): String = "Edit encrypted property value"
 
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {

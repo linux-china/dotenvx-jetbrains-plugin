@@ -20,7 +20,7 @@ class EncryptPropertiesValueIntention : PsiElementBaseIntentionAction(), DumbAwa
 
     override fun getFamilyName(): String = "Dotenvx"
 
-    override fun getText(): String = "Encrypt value with dotenv.public.key"
+    override fun getText(): String = "Encrypt property value with dotenv.public.key"
 
 
 

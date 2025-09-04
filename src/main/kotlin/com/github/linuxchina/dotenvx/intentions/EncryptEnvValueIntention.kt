@@ -21,7 +21,7 @@ class EncryptEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
 
     override fun getFamilyName(): String = "Dotenvx"
 
-    override fun getText(): String = "Encrypt value with DOTENV_PUBLIC_KEY"
+    override fun getText(): String = "Encrypt env value with DOTENV_PUBLIC_KEY"
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.elementType is DotEnvTokenType && element.parent is DotEnvValue) {
