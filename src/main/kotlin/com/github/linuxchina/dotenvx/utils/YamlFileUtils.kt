@@ -18,10 +18,10 @@ object YamlFileUtils {
         val lineStartOffset = document.getLineStartOffset(lineNumber)
         val lineEndOffset = document.getLineEndOffset(lineNumber)
         val keyName = document.getText(com.intellij.openapi.util.TextRange(lineStartOffset, lineEndOffset)).trim()
-        if (keyName.contains(':')) {
-            return keyName.substringBefore(':').trim()
+        return if (keyName.contains(':')) {
+            keyName.substringBefore(':').trim()
         } else {
-            return keyName
+            keyName
         }
     }
 }
