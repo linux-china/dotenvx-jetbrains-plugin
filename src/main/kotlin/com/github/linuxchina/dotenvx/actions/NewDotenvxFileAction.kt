@@ -65,6 +65,15 @@ ${publicKeyName}=${keyPair.publicKey}
 
 # Environment variables. MAKE SURE to ENCRYPT them before committing to source control
 """
+        } else if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
+            """# ---
+# ${publicKeyName}: ${keyPair.publicKey}                
+# uuid: $uuid
+# name: app_name
+# group: group_name
+# ---
+
+"""
         } else {
             """# ---
 # uuid: $uuid
