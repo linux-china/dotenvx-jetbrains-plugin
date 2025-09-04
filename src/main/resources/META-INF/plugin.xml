@@ -25,6 +25,13 @@
                                               providerId="dotenvx.implicit.dotenv"
                                               bundle="messages.DotenvxBundle"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
+        <codeInsight.declarativeInlayProvider language="yaml"
+                                              implementationClass="com.github.linuxchina.dotenvx.hints.DotenvxYamlInlayHintsProvider"
+                                              isEnabledByDefault="true"
+                                              group="VALUES_GROUP"
+                                              providerId="dotenvx.implicit.yaml"
+                                              bundle="messages.DotenvxBundle"
+                                              nameKey="dotenvx.implicit.value.inlay.provider.name"/>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EncryptEnvValueIntention</className>
             <category>Dotenvx</category>
