@@ -24,13 +24,9 @@ class DotenvxEnvInlayHintsProvider : InlayHintsProvider, DumbAware {
         if (!(fileName == ".env" || fileName.startsWith(".env."))) {
             return null
         }
-        val publicKey: String? = DotenvxEncryptor.findPublicKey(file)
-        if (file.text.contains("encrypted:") || file.text.contains("DOTENV_PUBLIC_KEY")) {
-            val profileName: String? = if (fileName.startsWith(".env.")) {
-                fileName.substringAfter(".env.")
-            } else {
-                null
-            }
+        val publicKey: String = DotenvxEncryptor.findPublicKey(file) ?: return null
+        if (file.text.contains("encrypted:") && file.text.contains("DOTENV_PUBLIC_KEY")) {
+            val profileName: String? = DotenvxEncryptor.getProfileName(fileName)
             val projectDir = file.project.guessProjectDir()?.path!!
             val privateKey = DotenvxEncryptor.getDotenvxPrivateKey(projectDir, profileName, publicKey)
             return DotenvxEnvCollector(publicKey, privateKey)
