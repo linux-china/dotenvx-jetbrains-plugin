@@ -4,6 +4,7 @@ import com.github.linuxchina.dotenvx.commands.GlobalKeyStore
 import com.intellij.psi.PsiFile
 import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.ecies.Ecies
+import org.jetbrains.yaml.psi.YAMLFile
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
@@ -11,10 +12,17 @@ import java.util.*
 object DotenvxEncryptor {
 
     fun findPublicKey(file: PsiFile): String? {
-        // Parse the file text to find DOTENV_PUBLIC_KEY line
-        for (line in file.text.lines()) {
-            if (line.startsWith("DOTENV_PUBLIC_KEY") || line.startsWith("dotenv.public.key")) {
-                return line.substringAfter('=').trim().trim('"', '\'')
+        if (file is YAMLFile) {
+            for (rawLine in file.text.lines()) {
+                if (rawLine.startsWith("#") && rawLine.contains("dotenv.public.key")) {
+                    return rawLine.substringAfter(':').trim().trim('"', '\'')
+                }
+            }
+        } else {
+            for (rawLine in file.text.lines()) {
+                if (rawLine.startsWith("DOTENV_PUBLIC_KEY") || rawLine.startsWith("dotenv.public.key")) {
+                    return rawLine.substringAfter('=').trim().trim('"', '\'')
+                }
             }
         }
         return null
@@ -55,6 +63,19 @@ object DotenvxEncryptor {
             }
         }
         return privateKey
+    }
+
+    fun getProfileName(fileName: String): String? {
+        if (fileName.endsWith(".properties") && fileName.contains("-")) {
+            return fileName.substringAfterLast("-").substringBefore(".")
+        } else if (fileName.startsWith(".env.")) {
+            return fileName.substringAfter(".env.")
+        } else if (fileName.endsWith(".yaml") && fileName.contains("-")) {
+            return fileName.substringAfterLast("-").substringBefore(".yaml")
+        } else if (fileName.endsWith(".yml") && fileName.contains("-")) {
+            return fileName.substringAfterLast("-").substringBefore(".yml")
+        }
+        return null
     }
 
     fun getPublicKeyName(fileName: String): String {
