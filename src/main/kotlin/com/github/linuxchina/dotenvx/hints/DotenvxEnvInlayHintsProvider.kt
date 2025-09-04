@@ -25,7 +25,7 @@ class DotenvxEnvInlayHintsProvider : InlayHintsProvider, DumbAware {
             return null
         }
         val publicKey: String = DotenvxEncryptor.findPublicKey(file) ?: return null
-        if (file.text.contains("encrypted:") && file.text.contains("DOTENV_PUBLIC_KEY")) {
+        if (file.text.contains("encrypted:") || file.text.contains("DOTENV_PUBLIC_KEY")) {
             val profileName: String? = DotenvxEncryptor.getProfileName(fileName)
             val projectDir = file.project.guessProjectDir()?.path!!
             val privateKey = DotenvxEncryptor.getDotenvxPrivateKey(projectDir, profileName, publicKey)
