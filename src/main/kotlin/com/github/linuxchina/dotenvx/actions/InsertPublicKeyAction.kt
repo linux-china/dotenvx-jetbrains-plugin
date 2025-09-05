@@ -82,14 +82,14 @@ ${publicKeyText.trim()}
 """
         } else {
             """# ---
-        # uuid: $uuid
-        # name: $appName
-        # group: $groupName
-        # ---
-        ${publicKeyName}=${keyPair.publicKey}
-        
-        # Environment variables. MAKE SURE to ENCRYPT them before committing to source control
-        """
+# uuid: $uuid
+# name: $appName
+# group: $groupName
+# ---
+${publicKeyName}=${keyPair.publicKey}
+
+# Environment variables. MAKE SURE to ENCRYPT them before committing to source control
+"""
         }
         insertAtHead(project, psiFile, header)
         keyPair.path = psiFile.virtualFile.path
