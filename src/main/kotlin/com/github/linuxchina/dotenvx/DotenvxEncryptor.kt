@@ -50,7 +50,7 @@ object DotenvxEncryptor {
         var privateKey = System.getenv(privateKeyEnvName)
         // load from .env.keys file
         if (privateKey == null || privateKey.isEmpty()) {
-            if (Files.exists(Paths.get(".env.keys"))) { // Check in the current directory
+            if (Files.exists(Paths.get(projectDir, ".env.keys"))) { // Check in the project's directory
                 val keysEnv = Dotenv.configure().directory(projectDir).filename(".env.keys").load()
                 privateKey = keysEnv.get(privateKeyEnvName)
             } else if (Files.exists(
