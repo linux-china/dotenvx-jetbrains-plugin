@@ -18,7 +18,7 @@ class DotenvxTerminalCustomizer : LocalTerminalCustomizer() {
         if (!workingDirectory.isNullOrEmpty()) {
             var fileName = ".env"
             val environmentMap = EnvironmentUtil.getEnvironmentMap()
-            arrayOf("NODE_ENV", "APP_ENV", "RUN_ENV").forEach {
+            arrayOf("NODE_ENV", "APP_ENV", "RUN_ENV","SPRING_PROFILES_ACTIVE","STELA_ENV").forEach {
                 if (environmentMap.containsKey(it)) {
                     fileName = environmentMap[it]!!
                 }
