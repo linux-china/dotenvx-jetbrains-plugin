@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [0.1.9] - 2025-09-05
+
+### Fixed
+
+- Wrong dotenv header for `.env` file
+- Trim input value
+
 ## [0.1.8] - 2025-09-04
 
 ### Added
