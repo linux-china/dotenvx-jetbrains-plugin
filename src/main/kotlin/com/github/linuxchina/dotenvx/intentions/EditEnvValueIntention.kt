@@ -12,8 +12,6 @@ import com.intellij.openapi.project.guessProjectDir
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
-import org.jetbrains.yaml.psi.YAMLScalar
-import org.jetbrains.yaml.psi.YAMLScalarText
 import ru.adelf.idea.dotenv.psi.DotEnvTokenType
 import ru.adelf.idea.dotenv.psi.DotEnvValue
 
@@ -48,21 +46,21 @@ class EditEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
         val envValue = element.parent as? DotEnvValue ?: return
-        val file = envValue.containingFile ?: return
-        val publicKey = findPublicKey(file) ?: return
-        val document = PsiDocumentManager.getInstance(project).getDocument(file) ?: return
+        val psiFile = envValue.containingFile ?: return
+        val publicKey = findPublicKey(psiFile) ?: return
+        val document = PsiDocumentManager.getInstance(project).getDocument(psiFile) ?: return
         val originalText = envValue.text
         var encryptedValue = originalText.trim().trim('"', '\'')
-        val projectDir = file.project.guessProjectDir()?.path!!
-        val fileName = file.name.lowercase()
+        val projectDir = psiFile.project.guessProjectDir()?.path!!
+        val fileName = psiFile.name.lowercase()
         val profileName: String? = DotenvxEncryptor.getProfileName(fileName)
         val privateKey = DotenvxEncryptor.getDotenvxPrivateKey(projectDir, profileName, publicKey)!!
         var plainValue = DotenvxEncryptor.decrypt(encryptedValue, privateKey)
         val keyName = envValue.parent.firstChild.text
-        val dialog = KeyValueDialog(project, "Edit encrypted Key-Value", "value", keyName, plainValue)
+        val dialog = KeyValueDialog(project, "Edit encrypted value", "value", keyName, plainValue)
         dialog.keyField.isEditable = false
         if (!dialog.showAndGet()) return
-        plainValue = dialog.value
+        plainValue = dialog.value.trim()
         encryptedValue = try {
             DotenvxEncryptor.encrypt(plainValue, publicKey)
         } catch (_: Exception) {

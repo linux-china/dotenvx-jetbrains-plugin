@@ -38,13 +38,13 @@ class AddEncryptedValueAction : AnAction(), DumbAware {
         val offset = caretModel.offset
         val keyName = YamlFileUtils.getKeyNameOnLine(editor)
 
-        val dialog = KeyValueDialog(project, "Add Encrypted Value", "value", keyName, null)
+        val dialog = KeyValueDialog(project, "Add encrypted value", "value", keyName, null)
         dialog.keyField.isEditable = false
         if (!dialog.showAndGet()) return
 
-        val value = dialog.value
+        val value = dialog.value.trim()
         if (value.isEmpty()) {
-            Messages.showErrorDialog(project, "Key/Value must not be empty", "Invalid Input")
+            Messages.showErrorDialog(project, "Value must not be empty", "Invalid Input")
             return
         }
         val publicKey = DotenvxEncryptor.findPublicKey(psiFile)

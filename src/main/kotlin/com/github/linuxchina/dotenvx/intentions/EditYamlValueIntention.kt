@@ -59,10 +59,10 @@ class EditYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware {
         val caretModel = editor.caretModel
         val offset = caretModel.offset
         val keyName = YamlFileUtils.getKeyNameOnLine(editor)
-        val dialog = KeyValueDialog(project, "Edit encrypted Key-Value", "value", keyName, plainValue)
+        val dialog = KeyValueDialog(project, "Edit encrypted value", "value", keyName, plainValue)
         dialog.keyField.isEditable = false
         if (!dialog.showAndGet()) return
-        plainValue = dialog.value
+        plainValue = dialog.value.trim()
         encryptedValue = try {
             DotenvxEncryptor.encrypt(plainValue, publicKey)
         } catch (_: Exception) {

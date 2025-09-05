@@ -2,6 +2,7 @@ package com.github.linuxchina.dotenvx.intentions
 
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.github.linuxchina.dotenvx.DotenvxEncryptor.findPublicKey
+import com.github.linuxchina.dotenvx.DotenvxEncryptor.getProfileName
 import com.github.linuxchina.dotenvx.actions.KeyValueDialog
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.lang.properties.psi.Property
@@ -51,10 +52,10 @@ class EditPropertiesValueIntention : PsiElementBaseIntentionAction(), DumbAware 
         val privateKey = DotenvxEncryptor.getDotenvxPrivateKey(projectDir, profileName, publicKey)!!
         var plainValue = DotenvxEncryptor.decrypt(encryptedValue, privateKey)
         val keyName = property.key
-        val dialog = KeyValueDialog(project, "Edit encrypted Key-Value", "value", keyName, plainValue)
+        val dialog = KeyValueDialog(project, "Edit encrypted value", "value", keyName, plainValue)
         dialog.keyField.isEditable = false
         if (!dialog.showAndGet()) return
-        plainValue = dialog.value
+        plainValue = dialog.value.trim()
         encryptedValue = try {
             DotenvxEncryptor.encrypt(plainValue, publicKey)
         } catch (_: Exception) {
@@ -69,14 +70,5 @@ class EditPropertiesValueIntention : PsiElementBaseIntentionAction(), DumbAware 
     }
 
     override fun startInWriteAction(): Boolean = false
-
-    fun getProfileName(fileName: String): String? {
-        val profileName: String? = if (fileName.contains("-")) {
-            fileName.substringAfterLast("-").substringBefore(".properties")
-        } else {
-            null
-        }
-        return profileName
-    }
 
 }

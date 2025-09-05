@@ -41,7 +41,7 @@ class NewDotenvxFileAction : AnAction(), DumbAware {
 
         val fileName = Messages.showInputDialog(
             project,
-            "Enter file name (e.g., .env, .env.test or application.properties, application.yaml):",
+            "Enter file name (e.g., .env, .env.test, application.properties etc.):",
             "New Dotenvx File",
             null
         )?.trim()?.takeIf { it.isNotEmpty() } ?: return

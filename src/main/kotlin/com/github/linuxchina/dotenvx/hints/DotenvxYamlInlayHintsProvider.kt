@@ -26,7 +26,7 @@ class DotenvxYamlInlayHintsProvider : InlayHintsProvider, DumbAware {
     ): InlayHintsCollector? {
         val fileName = file.name.lowercase()
         if (file !is YAMLFile) return null
-        if (file.text.contains("encrypted:") || file.text.contains("dotenv.public.key")) {
+        if (file.text.contains("encrypted:")) {
             val publicKey: String = DotenvxEncryptor.findPublicKey(file) ?: return null
             val profileName: String? = DotenvxEncryptor.getProfileName(fileName)
             val projectDir = file.project.guessProjectDir()?.path!!
@@ -63,7 +63,7 @@ class DotenvxYamlCollector(val publicKey: String, val privateKey: String?) : Sha
                     sink.addPresentation(
                         InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
                     ) {
-                        text("private key not found!")
+                        text("Private key not found!")
                     }
                 } else {
                     sink.addPresentation(

@@ -33,7 +33,7 @@ class AddKeyValueAction : AnAction(), DumbAware {
         val psiFile = e.getData(CommonDataKeys.PSI_FILE) ?: return
         if (!isEnvOrProperties(psiFile)) return
 
-        val dialog = KeyValueDialog(project, "Add Encrypted Key-Value", "key", null, null)
+        val dialog = KeyValueDialog(project, "Add encrypted Key-Value", "key", null, null)
         if (!dialog.showAndGet()) return
         var key = dialog.key.trim()
 
@@ -41,7 +41,7 @@ class AddKeyValueAction : AnAction(), DumbAware {
         if (fileName.startsWith(".env")) {
             key = key.replace("-", "_").replace(".", "_").uppercase()
         }
-        val value = dialog.value
+        val value = dialog.value.trim()
         if (key.isEmpty() || value.isEmpty()) {
             Messages.showErrorDialog(project, "Key/Value must not be empty", "Invalid Input")
             return

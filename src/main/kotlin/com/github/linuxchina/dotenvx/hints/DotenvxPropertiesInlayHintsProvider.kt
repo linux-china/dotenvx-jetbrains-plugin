@@ -71,7 +71,7 @@ class DotenvxPropertiesCollector(val publicKey: String?, val privateKey: String?
                     sink.addPresentation(
                         InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
                     ) {
-                        text("private key not found!")
+                        text("Private key not found!")
                     }
                 } else {
                     sink.addPresentation(
