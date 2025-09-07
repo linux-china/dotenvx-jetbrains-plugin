@@ -32,6 +32,7 @@
                                               providerId="dotenvx.implicit.yaml"
                                               bundle="messages.DotenvxBundle"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
+        <copyPastePreProcessor implementation="com.github.linuxchina.dotenvx.processor.PasteEncryptPreProcessor"/>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EncryptEnvValueIntention</className>
             <category>Dotenvx</category>
