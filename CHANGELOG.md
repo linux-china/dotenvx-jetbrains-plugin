@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [0.1.10] - 2025-09-07
+
+### Added
+
+- Paste and encrypt support: encrypt pasted data after a key: `API_KEY=<caret>` if key name contains `password`, `secret`,
+  `key`, `private`, `token`, `credential`.
+
 ## [0.1.9] - 2025-09-05
 
 ### Fixed
