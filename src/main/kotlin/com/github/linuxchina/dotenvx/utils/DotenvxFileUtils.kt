@@ -1,16 +1,14 @@
 package com.github.linuxchina.dotenvx.utils
 
 import com.intellij.openapi.editor.Editor
-import com.intellij.psi.PsiFile
 
-object YamlFileUtils {
+object DotenvxFileUtils {
 
-    fun isYamlOrToml(psiFile: PsiFile): Boolean {
-        val name = psiFile.name
-        return name.endsWith(".yaml") || name.endsWith(".yml") || name.endsWith(".toml")
+    fun isYamlOrToml(fileName: String): Boolean {
+        return fileName.endsWith(".yaml") || fileName.endsWith(".yml") || fileName.endsWith(".toml")
     }
 
-    fun getKeyNameOnLine(editor: Editor): String {
+    fun getKeyNameOnLine(fileName: String, editor: Editor): String {
         val document = editor.document
         val caretModel = editor.caretModel
         val offset = caretModel.offset
@@ -18,8 +16,12 @@ object YamlFileUtils {
         val lineStartOffset = document.getLineStartOffset(lineNumber)
         val lineEndOffset = document.getLineEndOffset(lineNumber)
         val keyName = document.getText(com.intellij.openapi.util.TextRange(lineStartOffset, lineEndOffset)).trim()
-        return if (keyName.contains(':')) {
+        return if (isYamlOrToml(fileName) && keyName.contains(':')) {
             keyName.substringBefore(':').trim()
+        } else if (fileName.endsWith(".properties") && keyName.contains("=")) {
+            keyName.substringBefore('=').trim()
+        } else if (fileName == ".env" || fileName.startsWith(".env.")) {
+            keyName.substringBefore('=').trim()
         } else {
             keyName
         }
