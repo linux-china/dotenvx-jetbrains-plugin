@@ -32,7 +32,7 @@ class PasteEncryptPreProcessor : CopyPastePreProcessor {
         if (!isDotenvxSupportFile(fileName)) return text
         val publicKey = findPublicKey(file) ?: return text
         val keyName = DotenvxFileUtils.getKeyNameOnLine(fileName, editor)
-        if (keyName.isEmpty() || !DotenvxEncryptor.isSensitiveKey(keyName)) return text
+        if (keyName.isEmpty() || !DotenvxEncryptor.isSensitiveKey(keyName.lowercase())) return text
         if (text.trim().startsWith("encrypted:")) return text
         return try {
             DotenvxEncryptor.encrypt(text, publicKey)
