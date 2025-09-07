@@ -12,6 +12,16 @@ import java.util.*
 
 object DotenvxEncryptor {
 
+    fun isSensitiveKey(keyName: String): Boolean {
+        val keyWords = listOf("password", "secret", "private", "key", "token", "credential")
+        for (keyword in keyWords) {
+            if (keyName.contains(keyword)) {
+                return true
+            }
+        }
+        return false
+    }
+
     fun findPublicKey(file: PsiFile): String? {
         if (file is YAMLFile) {
             val publicKeyElement = YAMLUtil.getQualifiedKeyInFile(file, "dotenv", "public", "key")
