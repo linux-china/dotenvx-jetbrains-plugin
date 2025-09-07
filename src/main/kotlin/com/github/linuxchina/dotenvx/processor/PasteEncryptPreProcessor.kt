@@ -10,7 +10,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
 
 
-class PasteEncryptProcessor : CopyPastePreProcessor {
+class PasteEncryptPreProcessor : CopyPastePreProcessor {
 
     override fun preprocessOnCopy(
         file: PsiFile?,
