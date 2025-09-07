@@ -1,8 +1,8 @@
 package com.github.linuxchina.dotenvx.actions
 
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
-import com.github.linuxchina.dotenvx.utils.YamlFileUtils
-import com.github.linuxchina.dotenvx.utils.YamlFileUtils.isYamlOrToml
+import com.github.linuxchina.dotenvx.utils.DotenvxFileUtils
+import com.github.linuxchina.dotenvx.utils.DotenvxFileUtils.isYamlOrToml
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -23,20 +23,20 @@ class AddEncryptedValueAction : AnAction(), DumbAware {
 
     override fun update(e: AnActionEvent) {
         val psiFile = e.getData(CommonDataKeys.PSI_FILE)
-        val visible = psiFile?.let { isYamlOrToml(it) } ?: false
+        val visible = psiFile?.let { isYamlOrToml(it.name) } ?: false
         e.presentation.isEnabledAndVisible = visible
     }
 
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val psiFile = e.getData(CommonDataKeys.PSI_FILE) ?: return
-        if (!isYamlOrToml(psiFile)) return
+        if (!isYamlOrToml(psiFile.name)) return
 
         val editor = e.getData(CommonDataKeys.EDITOR) ?: return
         val document = editor.document
         val caretModel = editor.caretModel
         val offset = caretModel.offset
-        val keyName = YamlFileUtils.getKeyNameOnLine(editor)
+        val keyName = DotenvxFileUtils.getKeyNameOnLine(psiFile.name, editor)
 
         val dialog = KeyValueDialog(project, "Add encrypted value", "value", keyName, null)
         dialog.keyField.isEditable = false

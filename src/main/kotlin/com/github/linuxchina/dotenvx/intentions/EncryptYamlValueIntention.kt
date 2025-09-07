@@ -2,7 +2,7 @@ package com.github.linuxchina.dotenvx.intentions
 
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.github.linuxchina.dotenvx.DotenvxEncryptor.findPublicKey
-import com.github.linuxchina.dotenvx.utils.YamlFileUtils.isYamlOrToml
+import com.github.linuxchina.dotenvx.utils.DotenvxFileUtils.isYamlOrToml
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
@@ -26,7 +26,7 @@ class EncryptYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware {
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.parent !is YAMLScalar) return false
         val psiFile = element.containingFile ?: return false
-        if (!isYamlOrToml(psiFile)) return false
+        if (!isYamlOrToml(psiFile.name)) return false
         val value = element.text?.trim() ?: return false
         if (value.startsWith("encrypted:")) return false
         val publicKey = findPublicKey(psiFile) ?: return false

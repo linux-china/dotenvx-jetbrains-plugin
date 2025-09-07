@@ -3,8 +3,8 @@ package com.github.linuxchina.dotenvx.intentions
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.github.linuxchina.dotenvx.DotenvxEncryptor.findPublicKey
 import com.github.linuxchina.dotenvx.actions.KeyValueDialog
-import com.github.linuxchina.dotenvx.utils.YamlFileUtils
-import com.github.linuxchina.dotenvx.utils.YamlFileUtils.isYamlOrToml
+import com.github.linuxchina.dotenvx.utils.DotenvxFileUtils
+import com.github.linuxchina.dotenvx.utils.DotenvxFileUtils.isYamlOrToml
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
@@ -30,7 +30,7 @@ class EditYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware {
             val psiFile = element.containingFile ?: return false
             val fileName = psiFile.name.lowercase()
             // Only .env or .env.* files (excluding .env.keys)
-            if (!(isYamlOrToml(psiFile))) return false
+            if (!(isYamlOrToml(fileName))) return false
             val plainValue = element.text.trim().trim('"', '\'')
             // Do not offer if already encrypted
             if (!plainValue.contains("encrypted:")) return false
@@ -58,7 +58,7 @@ class EditYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware {
         val document = editor!!.document
         val caretModel = editor.caretModel
         val offset = caretModel.offset
-        val keyName = YamlFileUtils.getKeyNameOnLine(editor)
+        val keyName = DotenvxFileUtils.getKeyNameOnLine(fileName, editor)
         val dialog = KeyValueDialog(project, "Edit encrypted value", "value", keyName, plainValue)
         dialog.keyField.isEditable = false
         if (!dialog.showAndGet()) return
