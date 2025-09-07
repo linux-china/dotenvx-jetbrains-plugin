@@ -13,6 +13,8 @@ Features:
 - Create new `Dotenvx .env/properties/yaml file` from `New` menu
 - Inlay hints for encrypted variables in `.env` and `.properties` files
 - Create an encrypted variable from the editor's popup menu or `Generate` menu
+- Paste and encrypt support: encrypt pasted data after a key `API_KEY=<caret>` if key name contains `password`,
+  `secret`, `key`, `private`, `token`, `credential`
 - Run configuration with Dotenvx support: Java, Node.js, Python, PHP, Ruby, Go.
 - Terminal environment customizer to load variables from .env by Dotenvx
 - Generate and update public key for normal `.env` and `.properties` files from `Generate` popup menu
