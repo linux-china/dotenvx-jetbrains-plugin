@@ -2,21 +2,24 @@ package com.github.linuxchina.dotenvx.intentions
 
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.github.linuxchina.dotenvx.DotenvxEncryptor.findPublicKey
+import com.github.linuxchina.dotenvx.LOCKER_ICON
 import com.github.linuxchina.dotenvx.utils.DotenvxFileUtils.isYamlOrToml
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import org.jetbrains.yaml.psi.YAMLScalar
+import javax.swing.Icon
 
 /**
  * Intention: Encrypt YAML scala value in YAML files using dotenv.public.key.
  * Shown when the file contains dotenv.public.key and the value is not already encrypted.
  */
-class EncryptYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware {
+class EncryptYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware, Iconable {
 
     override fun getFamilyName(): String = "Dotenvx"
 
@@ -55,4 +58,7 @@ class EncryptYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware {
 
     override fun startInWriteAction(): Boolean = true
 
+    override fun getIcon(p0: Int): Icon {
+       return LOCKER_ICON
+    }
 }

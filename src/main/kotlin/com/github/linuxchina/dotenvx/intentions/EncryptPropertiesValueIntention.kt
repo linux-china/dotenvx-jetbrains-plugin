@@ -2,6 +2,7 @@ package com.github.linuxchina.dotenvx.intentions
 
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.github.linuxchina.dotenvx.DotenvxEncryptor.findPublicKey
+import com.github.linuxchina.dotenvx.LOCKER_ICON
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.lang.properties.psi.Property
 import com.intellij.lang.properties.psi.impl.PropertyValueImpl
@@ -9,14 +10,17 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.IconLoader
+import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
+import javax.swing.Icon
 
 /**
  * Intention: Encrypt Property value in .properties files using dotenv.public.key.
  * Shown when the file contains dotenv.public.key and the value is not already encrypted.
  */
-class EncryptPropertiesValueIntention : PsiElementBaseIntentionAction(), DumbAware {
+class EncryptPropertiesValueIntention : PsiElementBaseIntentionAction(), DumbAware, Iconable {
 
     override fun getFamilyName(): String = "Dotenvx"
 
@@ -55,4 +59,7 @@ class EncryptPropertiesValueIntention : PsiElementBaseIntentionAction(), DumbAwa
 
     override fun startInWriteAction(): Boolean = true
 
+    override fun getIcon(p0: Int): Icon {
+           return LOCKER_ICON
+       }
 }

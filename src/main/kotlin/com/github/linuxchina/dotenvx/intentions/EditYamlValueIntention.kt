@@ -2,6 +2,7 @@ package com.github.linuxchina.dotenvx.intentions
 
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.github.linuxchina.dotenvx.DotenvxEncryptor.findPublicKey
+import com.github.linuxchina.dotenvx.VARIABLE_ICON
 import com.github.linuxchina.dotenvx.actions.KeyValueDialog
 import com.github.linuxchina.dotenvx.utils.DotenvxFileUtils
 import com.github.linuxchina.dotenvx.utils.DotenvxFileUtils.isYamlOrToml
@@ -11,15 +12,17 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
+import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import org.jetbrains.yaml.psi.YAMLScalar
+import javax.swing.Icon
 
 /**
  * Intention: edit encrypted value in YAML files using dotenv.public.key.
  * Shown when the file contains dotenv.public.key and the value is not already encrypted.
  */
-class EditYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware {
+class EditYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware, Iconable {
 
     override fun getFamilyName(): String = "Dotenvx"
 
@@ -76,4 +79,8 @@ class EditYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware {
     }
 
     override fun startInWriteAction(): Boolean = false
+
+    override fun getIcon(p0: Int): Icon {
+        return VARIABLE_ICON
+    }
 }

@@ -2,6 +2,7 @@ package com.github.linuxchina.dotenvx.intentions
 
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.github.linuxchina.dotenvx.DotenvxEncryptor.findPublicKey
+import com.github.linuxchina.dotenvx.VARIABLE_ICON
 import com.github.linuxchina.dotenvx.actions.KeyValueDialog
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.command.WriteCommandAction
@@ -9,17 +10,19 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
+import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import ru.adelf.idea.dotenv.psi.DotEnvTokenType
 import ru.adelf.idea.dotenv.psi.DotEnvValue
+import javax.swing.Icon
 
 /**
  * Intention: edit encrypted value in .env files using DOTENV_PUBLIC_KEY.
  * Shown when the file contains DOTENV_PUBLIC_KEY and the value is not already encrypted.
  */
-class EditEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
+class EditEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware, Iconable {
 
     override fun getFamilyName(): String = "Dotenvx"
 
@@ -74,4 +77,8 @@ class EditEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware {
     }
 
     override fun startInWriteAction(): Boolean = false
+
+    override fun getIcon(p0: Int): Icon {
+        return VARIABLE_ICON
+    }
 }
