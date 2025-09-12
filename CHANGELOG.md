@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [0.1.13] - 2025-09-15
+
+### Added
+
+- Add gutter icon for encrypted variable
+- Add gutter icon for public key
+
 ## [0.1.12] - 2025-09-12
 
 ### Added
