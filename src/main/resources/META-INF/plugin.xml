@@ -32,6 +32,10 @@
                                               providerId="dotenvx.implicit.yaml"
                                               bundle="messages.DotenvxBundle"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
+        <codeInsight.lineMarkerProvider language="DotEnv"
+                                        implementationClass="com.github.linuxchina.dotenvx.marker.EnvFileLineMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="yaml"
+                                        implementationClass="com.github.linuxchina.dotenvx.marker.YamlFileLineMarkerProvider"/>
         <copyPastePreProcessor implementation="com.github.linuxchina.dotenvx.processor.PasteEncryptPreProcessor"/>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EncryptEnvValueIntention</className>

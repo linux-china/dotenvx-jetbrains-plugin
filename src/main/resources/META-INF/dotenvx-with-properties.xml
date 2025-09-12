@@ -8,6 +8,8 @@
                                               providerId="dotenvx.implicit.properties"
                                               bundle="messages.DotenvxBundle"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
+        <codeInsight.lineMarkerProvider language="Properties"
+                                        implementationClass="com.github.linuxchina.dotenvx.marker.PropertiesFileLineMarkerProvider"/>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EncryptPropertiesValueIntention</className>
             <category>Dotenvx</category>
