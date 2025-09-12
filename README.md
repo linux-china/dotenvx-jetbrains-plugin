@@ -20,6 +20,7 @@ Features:
 - Generate and update public key for normal `.env` and `.properties` files from `Generate` popup menu
 - Intention action to encrypt plain value in the editor
 - Intention action to edit encrypted value in the editor
+- Gutter icon for encrypted variables
 - Native support for Spring Boot `application.properties` or `application.yaml`
 
 <!-- Plugin description end -->
