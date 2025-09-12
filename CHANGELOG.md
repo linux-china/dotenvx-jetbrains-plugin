@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.12] - 2025-09-12
+
+### Added
+
+- Add gutter icon for encrypted variable
+
 ## [0.1.11] - 2025-09-10
 
 ### Added
