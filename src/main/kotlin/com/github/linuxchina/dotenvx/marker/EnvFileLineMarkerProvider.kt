@@ -21,7 +21,9 @@ class EnvFileLineMarkerProvider : DotenvxBaseLineMarkerProvider() {
                     return lineMarkerForVariable(psiElement)
                 }
             } else if (psiElement.parent is DotEnvKey) {
-                if (psiElement.text.startsWith("DOTENV_PUBLIC_KEY")) {
+                if (psiElement.text.startsWith("DOTENV_PUBLIC_KEY")
+                    || psiElement.text.startsWith("DOTENV_PRIVATE_KEY")
+                ) {
                     return lineMarkerForPublicKey(psiElement)
                 }
             }
