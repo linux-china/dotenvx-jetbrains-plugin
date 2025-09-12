@@ -10,6 +10,9 @@
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
         <codeInsight.lineMarkerProvider language="Properties"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.PropertiesFileLineMarkerProvider"/>
+        <annotator language="Properties"
+                                  implementationClass="com.github.linuxchina.dotenvx.highlight.PropertiesFileHighlighterAnnotator"/>
+
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EncryptPropertiesValueIntention</className>
             <category>Dotenvx</category>

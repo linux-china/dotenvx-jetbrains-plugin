@@ -36,6 +36,11 @@
                                         implementationClass="com.github.linuxchina.dotenvx.marker.EnvFileLineMarkerProvider"/>
         <codeInsight.lineMarkerProvider language="yaml"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.YamlFileLineMarkerProvider"/>
+        <annotator language="DotEnv"
+                           implementationClass="com.github.linuxchina.dotenvx.highlight.EnvFileHighlighterAnnotator"/>
+        <annotator language="yaml"
+                           implementationClass="com.github.linuxchina.dotenvx.highlight.YamlFileHighlighterAnnotator"/>
+
         <copyPastePreProcessor implementation="com.github.linuxchina.dotenvx.processor.PasteEncryptPreProcessor"/>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EncryptEnvValueIntention</className>
