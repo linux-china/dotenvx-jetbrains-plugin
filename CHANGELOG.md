@@ -9,8 +9,8 @@
 ### Added
 
 - Add gutter icon for encrypted variable
+- Add high light for encrypted value
 - Add gutter icon for a public key
-- Add high lighter for encrypted value
 
 ## [0.1.12] - 2025-09-12
 
