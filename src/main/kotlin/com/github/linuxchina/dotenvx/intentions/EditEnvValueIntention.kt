@@ -15,6 +15,7 @@ import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import ru.adelf.idea.dotenv.psi.DotEnvTokenType
+import ru.adelf.idea.dotenv.psi.DotEnvTypes
 import ru.adelf.idea.dotenv.psi.DotEnvValue
 import javax.swing.Icon
 
@@ -29,7 +30,7 @@ class EditEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware, Iconab
     override fun getText(): String = "Edit encrypted env value"
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
-        if (element.elementType is DotEnvTokenType && element.parent is DotEnvValue) {
+        if (element.elementType  == DotEnvTypes.VALUE_CHARS && element.parent is DotEnvValue) {
             val psiFile = element.containingFile ?: return false
             val fileName = psiFile.name.lowercase()
             // Only .env or .env.* files (excluding .env.keys)
