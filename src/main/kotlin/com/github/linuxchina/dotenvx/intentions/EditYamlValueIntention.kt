@@ -26,7 +26,7 @@ class EditYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware, Icona
 
     override fun getFamilyName(): String = "Dotenvx"
 
-    override fun getText(): String = "Edit encrypted YMAL value"
+    override fun getText(): String = "Edit encrypted YAML value"
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean {
         if (element.parent is YAMLScalar) {
