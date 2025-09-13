@@ -1,4 +1,5 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<!--suppress PluginXmlI18n -->
 <idea-plugin>
     <id>dotenvx</id>
     <name>Dotenvx</name>
@@ -37,9 +38,9 @@
         <codeInsight.lineMarkerProvider language="yaml"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.YamlFileLineMarkerProvider"/>
         <annotator language="DotEnv"
-                           implementationClass="com.github.linuxchina.dotenvx.highlight.EnvFileHighlighterAnnotator"/>
+                   implementationClass="com.github.linuxchina.dotenvx.highlight.EnvFileHighlighterAnnotator"/>
         <annotator language="yaml"
-                           implementationClass="com.github.linuxchina.dotenvx.highlight.YamlFileHighlighterAnnotator"/>
+                   implementationClass="com.github.linuxchina.dotenvx.highlight.YamlFileHighlighterAnnotator"/>
 
         <copyPastePreProcessor implementation="com.github.linuxchina.dotenvx.processor.PasteEncryptPreProcessor"/>
         <intentionAction>
@@ -62,6 +63,13 @@
             <category>Dotenvx</category>
             <language>yaml</language>
         </intentionAction>
+        <localInspection language="DotEnv"
+                         shortName="DotenvxSensitiveValueInspection"
+                         displayName="Sensitive value is not encrypted"
+                         groupPath="Dotenvx"
+                         enabledByDefault="true"
+                         implementationClass="com.github.linuxchina.dotenvx.inspections.EnvSensitiveValueInspection"
+                         groupKey="dotenvx.inspection.group.name"/>
     </extensions>
 
     <actions>
