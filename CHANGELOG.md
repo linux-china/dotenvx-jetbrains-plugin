@@ -4,7 +4,13 @@
 
 ## [Unreleased]
 
-## [0.1.13] - 2025-09-15
+## [0.1.14] - 2025-09-13
+
+### Added
+
+- Add inspection for key name with `password`, `private`, `key`, `token`, `secret`, `credential` with plain value
+
+## [0.1.13] - 2025-09-12
 
 ### Added
 
