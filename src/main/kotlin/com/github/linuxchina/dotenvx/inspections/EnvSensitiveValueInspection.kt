@@ -20,7 +20,7 @@ class EnvSensitiveValueInspection : LocalInspectionTool() {
 
     override fun getDisplayName(): String = "Sensitive value is not encrypted"
 
-    override fun getShortName(): String = "DotenvxSensitiveValueInspection"
+    override fun getShortName(): String = "EnvFileSensitiveValueInspection"
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
         return object : PsiElementVisitor() {
