@@ -12,10 +12,13 @@ import java.util.*
 
 object DotenvxEncryptor {
 
-    fun isSensitiveKey(keyName: String): Boolean {
+    fun isSensitiveKey(keyNameLower: String): Boolean {
+        if (keyNameLower.startsWith("dotenv.public.key") || keyNameLower.startsWith("dotenv_public_key")) {
+            return false
+        }
         val keyWords = listOf("password", "secret", "private", "key", "token", "credential")
         for (keyword in keyWords) {
-            if (keyName.contains(keyword)) {
+            if (keyNameLower.contains(keyword)) {
                 return true
             }
         }
