@@ -64,7 +64,7 @@
             <language>yaml</language>
         </intentionAction>
         <localInspection language="DotEnv"
-                         shortName="DotenvxSensitiveValueInspection"
+                         shortName="EnvFileSensitiveValueInspection"
                          displayName="Sensitive value is not encrypted"
                          groupPath="Dotenvx"
                          enabledByDefault="true"

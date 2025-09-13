@@ -1,3 +1,4 @@
+<!--suppress PluginXmlI18n -->
 <idea-plugin>
     <depends>com.intellij.properties</depends>
     <extensions defaultExtensionNs="com.intellij">
@@ -11,8 +12,13 @@
         <codeInsight.lineMarkerProvider language="Properties"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.PropertiesFileLineMarkerProvider"/>
         <annotator language="Properties"
-                                  implementationClass="com.github.linuxchina.dotenvx.highlight.PropertiesFileHighlighterAnnotator"/>
-
+                   implementationClass="com.github.linuxchina.dotenvx.highlight.PropertiesFileHighlighterAnnotator"/>
+        <localInspection language="Properties"
+                         shortName="PropertiesFileSensitiveValueInspection"
+                         displayName="Sensitive value is not encrypted"
+                         groupPath="Dotenvx"
+                         enabledByDefault="true"
+                         implementationClass="com.github.linuxchina.dotenvx.inspections.PropertiesSensitiveValueInspection"/>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EncryptPropertiesValueIntention</className>
             <category>Dotenvx</category>
