@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.15] - 2025-09-15
+
+### Added
+
+- Add key pairs cache: avoid the plugin to read key store frequently
+
 ## [0.1.14] - 2025-09-13
 
 ### Added
