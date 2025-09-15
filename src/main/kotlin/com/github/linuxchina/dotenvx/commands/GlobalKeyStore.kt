@@ -2,6 +2,7 @@ package com.github.linuxchina.dotenvx.commands
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.uuid.Generators
+import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import io.github.cdimascio.ecies.Ecies
 import java.io.File
 import java.nio.file.Paths
@@ -78,6 +79,7 @@ object GlobalKeyStore {
         }
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(keysFile, globalStore)
+            DotenvxEncryptor.cacheKeyPair(keyPair.publicKey, keyPair.privateKey)
         } catch (e: Exception) {
         }
     }

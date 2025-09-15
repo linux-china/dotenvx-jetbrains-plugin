@@ -11,6 +11,7 @@ import java.nio.file.Paths
 import java.util.*
 
 object DotenvxEncryptor {
+    private val keysCache = mutableMapOf<String, String>()
 
     fun isSensitiveKey(keyNameLower: String): Boolean {
         if (keyNameLower.startsWith("dotenv.public.key") || keyNameLower.startsWith("dotenv_public_key")) {
@@ -23,6 +24,10 @@ object DotenvxEncryptor {
             }
         }
         return false
+    }
+
+    fun cacheKeyPair(publicKey: String, privateKey: String) {
+        keysCache[publicKey] = privateKey
     }
 
     fun findPublicKey(file: PsiFile): String? {
@@ -45,13 +50,19 @@ object DotenvxEncryptor {
     }
 
     fun getDotenvxPrivateKey(projectDir: String, profileName: String?, publicKeyHex: String?): String? {
+        // check keys cache
+        if (publicKeyHex != null && keysCache.contains(publicKeyHex)) {
+            return keysCache[publicKeyHex]
+        }
         // load the private key from the global store: .env.keys.json
         if (publicKeyHex != null && !publicKeyHex.isEmpty()) {
             val globalStore: Map<String, Any> = GlobalKeyStore.getGlobalKeyPairs()
             if (globalStore.containsKey(publicKeyHex)) {
                 val keyPair = globalStore[publicKeyHex]
                 if (keyPair is Map<*, *>) {
-                    return keyPair["private_key"].toString()
+                    val privateKey = keyPair["private_key"].toString()
+                    keysCache[publicKeyHex] = privateKey
+                    return privateKey
                 }
             }
         }
@@ -77,6 +88,9 @@ object DotenvxEncryptor {
                     Dotenv.configure().directory(System.getProperty("user.home")).filename(".env.keys").load()
                 privateKey = keysEnv.get(privateKeyEnvName)
             }
+        }
+        if (!privateKey.isNullOrEmpty() && publicKeyHex != null) {
+            keysCache[publicKeyHex] = privateKey
         }
         return privateKey
     }
