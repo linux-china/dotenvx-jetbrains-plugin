@@ -1,0 +1,5 @@
+# ---
+# uuid: 01996bff-f018-7b7a-a5d8-968e972515f9
+# dotenv.public.key: 02b4972559803fa3c2464e93858f80c3a4c86f046f725329f8975e007b393dc4f0
+# ---
+api_key = "encrypted:yyyyy"
