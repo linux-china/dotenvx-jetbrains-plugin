@@ -106,6 +106,10 @@ object DotenvxEncryptor {
             return fileName.substringAfterLast("-").substringBefore(".yaml")
         } else if (fileName.endsWith(".yml") && fileName.contains("-")) {
             return fileName.substringAfterLast("-").substringBefore(".yml")
+        } else if (fileName.endsWith(".toml")) {
+            return fileName.substringAfterLast("-").substringBefore(".toml")
+        } else if (fileName.endsWith(".xml")) {
+            return fileName.substringAfterLast("-").substringBefore(".xml")
         }
         return null
     }
@@ -119,6 +123,10 @@ object DotenvxEncryptor {
             fileName.substringBeforeLast(".yaml").substringAfterLast("-")
         } else if (fileName.endsWith(".yml") && fileName.contains("-")) {
             fileName.substringBeforeLast(".yml").substringAfterLast("-")
+        } else if (fileName.endsWith(".toml") && fileName.contains("-")) {
+            fileName.substringBeforeLast(".toml").substringAfterLast("-")
+        } else if (fileName.endsWith(".xml") && fileName.contains("-")) {
+            fileName.substringBeforeLast(".xml").substringAfterLast("-")
         } else {
             null
         }
