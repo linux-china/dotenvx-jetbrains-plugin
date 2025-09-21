@@ -43,7 +43,7 @@ class PasteEncryptPreProcessor : CopyPastePreProcessor {
 
     fun isDotenvxSupportFile(fileName: String): Boolean {
         return fileName.endsWith(".properties") || fileName.endsWith(".yaml") || fileName.endsWith(".yml")
-                || fileName == ".env" || fileName.startsWith(".env.")
+                || fileName == ".env" || fileName.startsWith(".env.") || fileName.endsWith(".xml")
     }
 
 }
