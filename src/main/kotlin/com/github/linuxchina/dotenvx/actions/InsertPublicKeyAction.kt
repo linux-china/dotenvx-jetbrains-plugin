@@ -92,7 +92,16 @@ ${publicKeyName}=${keyPair.publicKey}
 ${publicKeyText.trim()}
 
 """
-        } else {
+        } else if (fileName.endsWith(".toml")) {
+"""# ---
+# uuid: $uuid
+# name: app_name
+# group: group_name
+# dotenv.public.key: ${keyPair.publicKey}
+# ---
+"""
+        }
+        else {
             """# ---
 # uuid: $uuid
 # name: $appName
@@ -114,6 +123,7 @@ ${publicKeyName}=${keyPair.publicKey}
                 && (name.endsWith(".properties")
                 || name.endsWith(".yaml") || name.endsWith(".yml")
                 || name.endsWith(".xml")
+                || name.endsWith(".toml")
                 || name == ".env"
                 || name.startsWith(".env."))
     }
