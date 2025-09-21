@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.16] - 2025-09-16
+
+### Added
+
+- Add XML support: public key in xml comment alike `<!-- dotenv.public.key=02b49725598 -->`
+
 ## [0.1.15] - 2025-09-15
 
 ### Added
