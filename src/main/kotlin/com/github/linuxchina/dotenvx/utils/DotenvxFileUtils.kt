@@ -22,6 +22,8 @@ object DotenvxFileUtils {
             keyName.substringBefore('=').trim()
         } else if (fileName == ".env" || fileName.startsWith(".env.")) {
             keyName.substringBefore('=').trim()
+        } else if (fileName.endsWith(".toml")) {
+            keyName.substringBefore('=').trim()
         } else {
             keyName
         }
