@@ -9,11 +9,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.endOffset
 import com.intellij.psi.xml.XmlAttributeValue
-import com.intellij.psi.xml.XmlElement
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlText
-import org.jetbrains.yaml.psi.YAMLFile
-import org.jetbrains.yaml.psi.YAMLScalar
 
 
 /**
@@ -46,14 +43,19 @@ class DotenvxXmlCollector(val publicKey: String, val privateKey: String?) : Shar
 
     override fun collectFromElement(element: PsiElement, sink: InlayTreeSink) {
         if ((element is XmlText || element is XmlAttributeValue) && element.text != null) {
-            val textValue = element.text
+            val rawTextValue = element.text
+            val textValue = element.text.trim()
             if ((textValue.startsWith("encrypted:") || textValue.startsWith("\"encrypted:")) && privateKey != null) {
                 try {
+                    var offset = (rawTextValue.length - textValue.length) / 2
+                    if(offset> 2 ) {
+                        offset -= 2
+                    }
                     DotenvxEncryptor.decrypt(textValue.trim('"'), privateKey)
                         .let { decryptedValue ->
                             if (decryptedValue.isNotEmpty()) {
                                 sink.addPresentation(
-                                    InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                                    InlineInlayPosition(element.endOffset - offset, true), hintFormat = HintFormat.default,
                                 ) {
                                     text(decryptedValue)
                                 }
