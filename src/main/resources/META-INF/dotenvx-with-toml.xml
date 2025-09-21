@@ -1,0 +1,23 @@
+<!--suppress PluginXmlI18n -->
+<idea-plugin>
+    <depends>org.toml.lang</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.declarativeInlayProvider language="TOML"
+                                              implementationClass="com.github.linuxchina.dotenvx.hints.DotenvxTomlInlayHintsProvider"
+                                              isEnabledByDefault="true"
+                                              group="VALUES_GROUP"
+                                              providerId="dotenvx.implicit.toml"
+                                              bundle="messages.DotenvxBundle"
+                                              nameKey="dotenvx.implicit.value.inlay.provider.name"/>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EncryptTomlValueIntention</className>
+            <category>Dotenvx</category>
+            <language>TOML</language>
+        </intentionAction>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EditTomlValueIntention</className>
+            <category>Dotenvx</category>
+            <language>TOML</language>
+        </intentionAction>
+    </extensions>
+</idea-plugin>
