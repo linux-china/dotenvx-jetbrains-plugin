@@ -4,11 +4,12 @@
 
 ## [Unreleased]
 
-## [0.1.16] - 2025-09-16
+## [0.1.16] - 2025-09-21
 
 ### Added
 
-- Add XML support: public key in xml comment alike `<!-- dotenv.public.key=02b49725598 -->`
+- Add XML support: public key in xml comment alike `<!-- dotenv.public.key: 02b49725598 -->`
+- Add toml support: public key in toml comment alike `# dotenv.public.key: 02b49725598`
 
 ## [0.1.15] - 2025-09-15
 
