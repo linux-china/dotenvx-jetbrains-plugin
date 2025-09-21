@@ -1,6 +1,7 @@
 package com.github.linuxchina.dotenvx.actions
 
 import com.fasterxml.uuid.Generators
+import com.fasterxml.uuid.impl.UUIDUtil.uuid
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.github.linuxchina.dotenvx.commands.GlobalKeyStore
 import com.intellij.openapi.actionSystem.ActionUpdateThread
@@ -15,6 +16,9 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.isFile
+import com.intellij.platform.ide.progress.ModalTaskOwner.project
+import java.awt.SystemColor.control
+import javax.xml.crypto.KeySelector.Purpose.ENCRYPT
 
 /**
  * Create a new dotenvx-related file and insert a public key line based on the file type.
@@ -91,10 +95,18 @@ ${publicKeyText.trim()}
 """
         } else if (fileName.endsWith(".xml")) {
             """<?xml version="1.0" encoding="UTF-8"?>
-<!-- uuid=$uuid -->
-<!-- dotenv.public.key=${keyPair.publicKey} -->
+<!-- uuid: $uuid -->
+<!-- dotenv.public.key: ${keyPair.publicKey} -->
 <root>
 </root>
+"""
+        } else if(fileName.endsWith(".toml")) {
+            """# ---
+# uuid: $uuid
+# name: app_name
+# group: group_name
+# dotenv.public.key: ${keyPair.publicKey}
+# ---
 """
         } else {
             """# ---
