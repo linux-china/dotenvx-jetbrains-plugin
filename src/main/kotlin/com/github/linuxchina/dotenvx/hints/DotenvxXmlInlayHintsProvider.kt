@@ -8,7 +8,9 @@ import com.intellij.openapi.project.guessProjectDir
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.endOffset
+import com.intellij.psi.util.startOffset
 import com.intellij.psi.xml.XmlAttributeValue
+import com.intellij.psi.xml.XmlComment
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlText
 
@@ -48,14 +50,15 @@ class DotenvxXmlCollector(val publicKey: String, val privateKey: String?) : Shar
             if ((textValue.startsWith("encrypted:") || textValue.startsWith("\"encrypted:")) && privateKey != null) {
                 try {
                     var offset = (rawTextValue.length - textValue.length) / 2
-                    if(offset> 2 ) {
+                    if (offset > 2) {
                         offset -= 2
                     }
                     DotenvxEncryptor.decrypt(textValue.trim('"'), privateKey)
                         .let { decryptedValue ->
                             if (decryptedValue.isNotEmpty()) {
                                 sink.addPresentation(
-                                    InlineInlayPosition(element.endOffset - offset, true), hintFormat = HintFormat.default,
+                                    InlineInlayPosition(element.endOffset - offset, true),
+                                    hintFormat = HintFormat.default,
                                 ) {
                                     text(decryptedValue)
                                 }
@@ -64,19 +67,20 @@ class DotenvxXmlCollector(val publicKey: String, val privateKey: String?) : Shar
                 } catch (_: Exception) {
 
                 }
-            } else if (textValue == publicKey) {
-                if (privateKey.isNullOrEmpty()) {
-                    sink.addPresentation(
-                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
-                    ) {
-                        text("Private key not found!")
-                    }
-                } else {
-                    sink.addPresentation(
-                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
-                    ) {
-                        text("Private key: ${privateKey.take(6)}...")
-                    }
+            }
+        } else if (element is XmlComment && element.text.contains(publicKey)) {
+            val offset = element.startOffset + element.text.indexOf(publicKey) + publicKey.length
+            if (privateKey.isNullOrEmpty()) {
+                sink.addPresentation(
+                    InlineInlayPosition(offset, false), hintFormat = HintFormat.default,
+                ) {
+                    text("Private key not found!")
+                }
+            } else {
+                sink.addPresentation(
+                    InlineInlayPosition(offset, false), hintFormat = HintFormat.default,
+                ) {
+                    text("Private key: ${privateKey.take(6)}...")
                 }
             }
         }
