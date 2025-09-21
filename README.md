@@ -10,14 +10,14 @@ making it easier to work with sensitive data without exposing it directly in the
 
 Features:
 
-- Create new `Dotenvx .env/properties/yaml file/xml` from `New` menu
-- Inlay hints for encrypted variables in `.env/properties/yaml/xml` files
+- Create new `Dotenvx .env/properties/yaml/xml/toml` from `New` menu
+- Inlay hints for encrypted variables in `.env/properties/yaml/xml/toml` files
 - Create an encrypted variable from the editor's popup menu or `Generate` menu
 - Paste and encrypt support: encrypt pasted data after a key `API_KEY=<caret>` if key name contains `password`,
   `secret`, `key`, `private`, `token`, `credential`
 - Run configuration with Dotenvx support: Java, Node.js, Python, PHP, Ruby, Go.
 - Terminal environment customizer to load variables from .env by Dotenvx
-- Generate and update public key for normal `.env/.properties/xml` files from `Generate` popup menu
+- Generate and update public key for normal `.env/.properties/xml/yaml/toml` files from `Generate` popup menu
 - Intention action to encrypt plain value in the editor
 - Intention action to edit encrypted value in the editor
 - Gutter icon for encrypted variables
