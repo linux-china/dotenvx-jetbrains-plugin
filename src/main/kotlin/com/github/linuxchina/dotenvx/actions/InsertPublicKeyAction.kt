@@ -60,6 +60,10 @@ ${publicKeyName}=${keyPair.publicKey}
 
 # Environment variables. MAKE SURE to ENCRYPT them before committing to source control
 """
+        } else if (fileName.endsWith(".xml")) {
+            """<!-- uuid=$uuid -->
+<!-- dotenv.public.key=${keyPair.publicKey} -->
+"""
         } else if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
             val profileName = DotenvxEncryptor.getProfileName(fileName)
             val publicKeyText = if (profileName == null) {
@@ -91,7 +95,7 @@ ${publicKeyName}=${keyPair.publicKey}
 # Environment variables. MAKE SURE to ENCRYPT them before committing to source control
 """
         }
-        insertAtHead(project, psiFile, header)
+        insertAtHead(project, psiFile, fileName, header)
         keyPair.path = psiFile.virtualFile.path
         GlobalKeyStore.saveKeyPair(keyPair)
     }
@@ -101,6 +105,7 @@ ${publicKeyName}=${keyPair.publicKey}
         return name != ".env.keys"
                 && (name.endsWith(".properties")
                 || name.endsWith(".yaml") || name.endsWith(".yml")
+                || name.endsWith(".xml")
                 || name == ".env"
                 || name.startsWith(".env."))
     }
@@ -109,10 +114,14 @@ ${publicKeyName}=${keyPair.publicKey}
         return !DotenvxEncryptor.findPublicKey(psiFile).isNullOrEmpty()
     }
 
-    private fun insertAtHead(project: Project, psiFile: PsiFile, textToInsert: String) {
+    private fun insertAtHead(project: Project, psiFile: PsiFile, fileName: String, textToInsert: String) {
         val document = PsiDocumentManager.getInstance(project).getDocument(psiFile) ?: return
+        var offset = 0
+        if (fileName.endsWith(".xml") && psiFile.text.startsWith("<?xml")) {
+            offset = psiFile.text.indexOf("?>") + 3
+        }
         WriteCommandAction.runWriteCommandAction(project) {
-            document.insertString(0, textToInsert)
+            document.insertString(offset, textToInsert)
             PsiDocumentManager.getInstance(project).commitDocument(document)
         }
     }
