@@ -89,6 +89,13 @@ ${publicKeyName}=${keyPair.publicKey}
 ${publicKeyText.trim()}
 
 """
+        } else if (fileName.endsWith(".xml")) {
+            """<?xml version="1.0" encoding="UTF-8"?>
+<!-- uuid=$uuid -->
+<!-- dotenv.public.key=${keyPair.publicKey} -->
+<root>
+</root>
+"""
         } else {
             """# ---
 # uuid: $uuid
