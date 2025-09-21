@@ -59,8 +59,6 @@ class EditYamlValueIntention : PsiElementBaseIntentionAction(), DumbAware, Icona
         val privateKey = DotenvxEncryptor.getDotenvxPrivateKey(projectDir, profileName, publicKey)!!
         var plainValue = DotenvxEncryptor.decrypt(encryptedValue, privateKey)
         val document = editor!!.document
-        val caretModel = editor.caretModel
-        val offset = caretModel.offset
         val keyName = DotenvxFileUtils.getKeyNameOnLine(fileName, editor)
         val dialog = KeyValueDialog(project, "Edit encrypted value", "value", keyName, plainValue)
         dialog.keyField.isEditable = false

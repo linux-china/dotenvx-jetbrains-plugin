@@ -57,7 +57,7 @@ class EncryptXmlValueIntention : PsiElementBaseIntentionAction(), DumbAware, Ico
         }
     }
 
-    override fun startInWriteAction(): Boolean = true
+    override fun startInWriteAction(): Boolean = false
 
     override fun getIcon(p0: Int): Icon {
         return LOCKER_ICON
