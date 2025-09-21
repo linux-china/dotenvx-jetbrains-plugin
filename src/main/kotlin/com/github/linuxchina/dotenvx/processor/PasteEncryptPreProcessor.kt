@@ -9,6 +9,14 @@ import com.intellij.openapi.editor.RawText
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
 
+val ALLOWED_EXT_NAMES = arrayOf(
+    "properties",
+    "yaml",
+    "yml",
+    "xml",
+    "toml",
+    "env"
+)
 
 class PasteEncryptPreProcessor : CopyPastePreProcessor {
 
@@ -42,8 +50,8 @@ class PasteEncryptPreProcessor : CopyPastePreProcessor {
     }
 
     fun isDotenvxSupportFile(fileName: String): Boolean {
-        return fileName.endsWith(".properties") || fileName.endsWith(".yaml") || fileName.endsWith(".yml")
-                || fileName == ".env" || fileName.startsWith(".env.") || fileName.endsWith(".xml")
+        val extName = fileName.substringAfterLast('.', "")
+        return fileName.startsWith(".env.") || ALLOWED_EXT_NAMES.contains(extName)
     }
 
 }
