@@ -33,6 +33,13 @@
                                               providerId="dotenvx.implicit.yaml"
                                               bundle="messages.DotenvxBundle"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
+        <codeInsight.declarativeInlayProvider language="XML"
+                                              implementationClass="com.github.linuxchina.dotenvx.hints.DotenvxXmlInlayHintsProvider"
+                                              isEnabledByDefault="true"
+                                              group="VALUES_GROUP"
+                                              providerId="dotenvx.implicit.xml"
+                                              bundle="messages.DotenvxBundle"
+                                              nameKey="dotenvx.implicit.value.inlay.provider.name"/>
         <codeInsight.lineMarkerProvider language="DotEnv"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.EnvFileLineMarkerProvider"/>
         <codeInsight.lineMarkerProvider language="yaml"
@@ -57,6 +64,16 @@
             <className>com.github.linuxchina.dotenvx.intentions.EditEnvValueIntention</className>
             <category>Dotenvx</category>
             <language>DotEnv</language>
+        </intentionAction>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EditXmlValueIntention</className>
+            <category>Dotenvx</category>
+            <language>XML</language>
+        </intentionAction>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EncryptXmlValueIntention</className>
+            <category>Dotenvx</category>
+            <language>XML</language>
         </intentionAction>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EditYamlValueIntention</className>
