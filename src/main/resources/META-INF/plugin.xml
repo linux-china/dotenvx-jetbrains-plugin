@@ -26,6 +26,7 @@
                                               group="VALUES_GROUP"
                                               providerId="dotenvx.implicit.dotenv"
                                               bundle="messages.DotenvxBundle"
+                                              descriptionKey="dotenvx.inlay.description"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
         <codeInsight.declarativeInlayProvider language="yaml"
                                               implementationClass="com.github.linuxchina.dotenvx.hints.DotenvxYamlInlayHintsProvider"
@@ -33,6 +34,7 @@
                                               group="VALUES_GROUP"
                                               providerId="dotenvx.implicit.yaml"
                                               bundle="messages.DotenvxBundle"
+                                              descriptionKey="dotenvx.inlay.description"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
         <codeInsight.declarativeInlayProvider language="XML"
                                               implementationClass="com.github.linuxchina.dotenvx.hints.DotenvxXmlInlayHintsProvider"
@@ -40,6 +42,7 @@
                                               group="VALUES_GROUP"
                                               providerId="dotenvx.implicit.xml"
                                               bundle="messages.DotenvxBundle"
+                                              descriptionKey="dotenvx.inlay.description"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
         <codeInsight.lineMarkerProvider language="DotEnv"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.EnvFileLineMarkerProvider"/>
@@ -87,7 +90,8 @@
                          groupPath="Dotenvx"
                          enabledByDefault="true"
                          implementationClass="com.github.linuxchina.dotenvx.inspections.EnvSensitiveValueInspection"
-                         groupKey="dotenvx.inspection.group.name"/>
+                         groupName="Dotenvx"
+                         bundle="messages.DotenvxBundle"/>
     </extensions>
 
     <actions>

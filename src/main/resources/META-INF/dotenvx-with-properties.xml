@@ -8,6 +8,7 @@
                                               group="VALUES_GROUP"
                                               providerId="dotenvx.implicit.properties"
                                               bundle="messages.DotenvxBundle"
+                                              descriptionKey="dotenvx.inlay.description"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
         <codeInsight.lineMarkerProvider language="Properties"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.PropertiesFileLineMarkerProvider"/>
@@ -18,6 +19,8 @@
                          displayName="Sensitive value is not encrypted"
                          groupPath="Dotenvx"
                          enabledByDefault="true"
+                         bundle="messages.DotenvxBundle"
+                         groupName="Dotenvx"
                          implementationClass="com.github.linuxchina.dotenvx.inspections.PropertiesSensitiveValueInspection"/>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EncryptPropertiesValueIntention</className>
