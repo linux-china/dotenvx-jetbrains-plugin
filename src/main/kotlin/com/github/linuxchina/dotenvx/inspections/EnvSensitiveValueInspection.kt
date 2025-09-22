@@ -9,6 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
+import org.jetbrains.annotations.Nls
 import ru.adelf.idea.dotenv.psi.DotEnvTypes
 import ru.adelf.idea.dotenv.psi.DotEnvValue
 
@@ -17,6 +18,10 @@ import ru.adelf.idea.dotenv.psi.DotEnvValue
  * "encrypted:", report a problem and provide a quick fix to encrypt the value using DOTENV_PUBLIC_KEY.
  */
 class EnvSensitiveValueInspection : LocalInspectionTool() {
+
+    override fun getGroupDisplayName(): @Nls(capitalization = Nls.Capitalization.Sentence) String {
+        return "Dotenvx inspection"
+    }
 
     override fun getDisplayName(): String = "Sensitive value is not encrypted"
 

@@ -9,12 +9,17 @@ import com.intellij.lang.properties.psi.impl.PropertyValueImpl
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.util.PsiTreeUtil
+import org.jetbrains.annotations.Nls
 
 /**
  * Inspection for properties files: if key name contains password, key or secret, and the value does not start with
  * "encrypted:", report a problem and provide a quick fix to encrypt the value using dotenv.public.keys.
  */
 class PropertiesSensitiveValueInspection : LocalInspectionTool() {
+
+    override fun getGroupDisplayName(): @Nls(capitalization = Nls.Capitalization.Sentence) String {
+        return "Dotenvx inspection"
+    }
 
     override fun getDisplayName(): String = "Sensitive value is not encrypted"
 
