@@ -15,7 +15,8 @@ val ALLOWED_EXT_NAMES = arrayOf(
     "yml",
     "xml",
     "toml",
-    "env"
+    "env",
+    "json"
 )
 
 class PasteEncryptPreProcessor : CopyPastePreProcessor {
