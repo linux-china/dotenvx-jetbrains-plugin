@@ -42,9 +42,10 @@ object DotenvxEncryptor {
         } else {
             for (rawLine in file.text.lines()) {
                 if (rawLine.contains("DOTENV_PUBLIC_KEY") || rawLine.contains("dotenv.public.key")) {
+                    // "dotenv.public.key" : "xxxx"
                     val publicKey = rawLine.split('=', ':', '：', limit = 2)[1].trim().trim('"', '\'')
-                    val parts = publicKey.split(' ', '-', '"', '\'', '<', '>', '#', '/')
-                    return parts[0].trim()
+                    val parts = publicKey.split(' ', '-', '<', '>', '#', '/', ',', ';')
+                    return parts[0].trim().trim('"', '\'')
                 }
             }
         }
