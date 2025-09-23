@@ -3,7 +3,6 @@ package com.github.linuxchina.dotenvx.hints
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.intellij.codeInsight.hints.declarative.*
 import com.intellij.json.psi.JsonFile
-import com.intellij.json.psi.JsonLiteral
 import com.intellij.json.psi.JsonStringLiteral
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAware
@@ -27,7 +26,7 @@ class DotenvxJsonInlayHintsProvider : InlayHintsProvider, DumbAware {
     ): InlayHintsCollector? {
         val fileName = file.name.lowercase()
         if (file !is JsonFile) return null
-        if (file.text.contains("encrypted:")) {
+        if (file.text.contains("encrypted:") || file.text.contains("dotenv.public.key")) {
             val publicKey: String = DotenvxEncryptor.findPublicKey(file) ?: return null
             val profileName: String? = DotenvxEncryptor.getProfileName(fileName)
             val projectDir = file.project.guessProjectDir()?.path!!
