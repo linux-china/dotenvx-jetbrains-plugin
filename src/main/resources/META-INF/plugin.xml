@@ -56,6 +56,9 @@
                                         implementationClass="com.github.linuxchina.dotenvx.marker.EnvFileLineMarkerProvider"/>
         <codeInsight.lineMarkerProvider language="yaml"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.YamlFileLineMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="JSON"
+                                        implementationClass="com.github.linuxchina.dotenvx.marker.JsonFileLineMarkerProvider"/>
+
         <annotator language="DotEnv"
                    implementationClass="com.github.linuxchina.dotenvx.highlight.EnvFileHighlighterAnnotator"/>
         <annotator language="yaml"
