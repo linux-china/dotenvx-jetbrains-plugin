@@ -4,6 +4,23 @@
 
 ## [Unreleased]
 
+## [0.1.17] - 2025-09-23
+
+### Added
+
+- Add JSON support: public key in JSON file alike `"dotenv.public.key": "xxxx"`
+ 
+```json
+{
+  "metadata": {
+    "dotenv.public.key": "02e8d78f0da7fc3b529d503edd933ed8cdc793"
+  },
+  "data": {
+    "password": "encrypted:xxxxx"
+  }
+}
+```
+
 ## [0.1.16] - 2025-09-21
 
 ### Added
