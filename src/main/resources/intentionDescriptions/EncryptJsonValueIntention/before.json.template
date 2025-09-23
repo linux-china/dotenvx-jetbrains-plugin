@@ -1,0 +1,8 @@
+{
+  "metadata": {
+    "dotenv.public.key": "02e8d78f0da7fc3b529d503edd933ed8cdc79dbe5fd5d9bd480f1e63a09905f3b3"
+  },
+  "data": {
+    "password": "my_password"
+  }
+}
