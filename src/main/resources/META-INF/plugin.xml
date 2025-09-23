@@ -44,6 +44,14 @@
                                               bundle="messages.DotenvxBundle"
                                               descriptionKey="dotenvx.inlay.description"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
+        <codeInsight.declarativeInlayProvider language="JSON"
+                                              implementationClass="com.github.linuxchina.dotenvx.hints.DotenvxJsonInlayHintsProvider"
+                                              isEnabledByDefault="true"
+                                              group="VALUES_GROUP"
+                                              providerId="dotenvx.implicit.json"
+                                              bundle="messages.DotenvxBundle"
+                                              descriptionKey="dotenvx.inlay.description"
+                                              nameKey="dotenvx.implicit.value.inlay.provider.name"/>
         <codeInsight.lineMarkerProvider language="DotEnv"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.EnvFileLineMarkerProvider"/>
         <codeInsight.lineMarkerProvider language="yaml"
