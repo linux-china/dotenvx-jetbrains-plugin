@@ -4,6 +4,7 @@ import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.intellij.codeInsight.hints.declarative.*
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonLiteral
+import com.intellij.json.psi.JsonStringLiteral
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.guessProjectDir
@@ -41,7 +42,7 @@ class DotenvxJsonInlayHintsProvider : InlayHintsProvider, DumbAware {
 class DotenvxJsonCollector(val publicKey: String, val privateKey: String?) : SharedBypassCollector {
 
     override fun collectFromElement(element: PsiElement, sink: InlayTreeSink) {
-        if (element is JsonLiteral && element.text != null) {
+        if (element is JsonStringLiteral && element.text != null) {
             val textValue = element.text.trim('"')
             if ((textValue.startsWith("encrypted:")) && privateKey != null) {
                 try {
