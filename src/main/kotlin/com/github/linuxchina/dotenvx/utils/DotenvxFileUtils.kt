@@ -24,6 +24,8 @@ object DotenvxFileUtils {
             keyName.substringBefore('=').trim()
         } else if (fileName.endsWith(".toml")) {
             keyName.substringBefore('=').trim()
+        } else if (fileName.endsWith(".json")) {
+            keyName.substringBefore(':').trim('"')
         } else {
             keyName
         }
