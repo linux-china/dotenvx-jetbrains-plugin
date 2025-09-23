@@ -5,7 +5,6 @@ import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.psi.PsiElement
 import org.jetbrains.yaml.psi.YAMLScalar
 
-val PUBLIC_KEY_REGEX = "[a-f0-9]{66}".toRegex()
 
 class YamlFileLineMarkerProvider : DotenvxBaseLineMarkerProvider() {
 

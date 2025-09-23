@@ -7,6 +7,8 @@ import com.intellij.codeInsight.daemon.LineMarkerProviderDescriptor
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 
+val PUBLIC_KEY_REGEX = "[a-f0-9]{66}".toRegex()
+
 abstract class DotenvxBaseLineMarkerProvider : LineMarkerProviderDescriptor() {
 
     fun lineMarkerForVariable(psiElement: PsiElement): LineMarkerInfo<PsiElement> {
