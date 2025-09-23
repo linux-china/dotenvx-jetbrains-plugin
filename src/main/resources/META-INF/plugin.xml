@@ -95,6 +95,16 @@
             <category>Dotenvx</category>
             <language>yaml</language>
         </intentionAction>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EditJsonValueIntention</className>
+            <category>Dotenvx</category>
+            <language>JSON</language>
+        </intentionAction>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EncryptJsonValueIntention</className>
+            <category>Dotenvx</category>
+            <language>JSON</language>
+        </intentionAction>
         <localInspection language="DotEnv"
                          shortName="EnvFileSensitiveValueInspection"
                          displayName="Sensitive value is not encrypted"
