@@ -100,7 +100,7 @@ ${publicKeyText.trim()}
             """{
   "metadata": {              
    "uuid": "$uuid",
-   "dotenv.public.key": "$keyPair.publicKey" 
+   "dotenv.public.key": "${keyPair.publicKey}" 
   }  
 }
 """
