@@ -12,6 +12,7 @@ import com.intellij.openapi.util.Iconable
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
+import ru.adelf.idea.dotenv.psi.DotEnvProperty
 import ru.adelf.idea.dotenv.psi.DotEnvTypes
 import ru.adelf.idea.dotenv.psi.DotEnvValue
 import javax.swing.Icon
@@ -35,6 +36,11 @@ class EncryptEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware, Ico
             val plainValue = element.text.trim().trim('"', '\'')
             // Do not offer if already encrypted
             if (plainValue.contains("encrypted:")) return false
+            val envValue = element.parent as DotEnvValue
+            val envProperty = envValue.parent as? DotEnvProperty ?: return false
+            if (envProperty.key.text.contains("DOTENV_PUBLIC_KEY")) {
+                return false
+            }
             // Require DOTENV_PUBLIC_KEY in file
             val publicKey = findPublicKey(psiFile) ?: return false
             return publicKey.isNotEmpty()
