@@ -81,6 +81,11 @@
             <language>DotEnv</language>
         </intentionAction>
         <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.CopyEnvPrivateKeyIntention</className>
+            <category>Dotenvx</category>
+            <language>DotEnv</language>
+        </intentionAction>
+        <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EditXmlValueIntention</className>
             <category>Dotenvx</category>
             <language>XML</language>
