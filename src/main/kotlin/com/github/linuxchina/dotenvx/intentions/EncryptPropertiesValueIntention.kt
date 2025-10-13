@@ -35,6 +35,9 @@ class EncryptPropertiesValueIntention : PsiElementBaseIntentionAction(), DumbAwa
         val property = element.parent as? Property ?: return false
         val value = property.value?.trim()?.trim('"', '\'') ?: return false
         if (value.startsWith("encrypted:")) return false
+        if(property.name?.contains("dotenv.public.key") == true) {
+            return false
+        }
         val publicKey = findPublicKey(psiFile) ?: return false
         return publicKey.isNotEmpty()
     }
