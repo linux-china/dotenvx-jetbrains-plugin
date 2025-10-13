@@ -32,5 +32,10 @@
             <category>Dotenvx</category>
             <language>Properties</language>
         </intentionAction>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.CopyPropertiesPrivateKeyIntention</className>
+            <category>Dotenvx</category>
+            <language>Properties</language>
+        </intentionAction>
     </extensions>
 </idea-plugin>
