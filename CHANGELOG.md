@@ -4,12 +4,25 @@
 
 ## [Unreleased]
 
+## [0.1.19] - 2025-10-14
+
+### Added
+
+- Change value input to `ExpandableTextField`: please expand to input multi-line value.
+
+## [0.1.18] - 2025-10-14
+
+### Added
+
+- Add intention action to copy private key for `.env` and `properties` files.
+- Change value input to `ExpandableTextField`: please expand to input multi-line value.
+
 ## [0.1.17] - 2025-09-23
 
 ### Added
 
 - Add JSON support: public key in JSON file alike `"dotenv.public.key": "xxxx"`
- 
+
 ```json
 {
   "metadata": {
