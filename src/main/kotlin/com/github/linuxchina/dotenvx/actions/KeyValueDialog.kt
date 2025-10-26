@@ -2,9 +2,11 @@ package com.github.linuxchina.dotenvx.actions
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
-import com.intellij.ui.components.JBScrollPane
-import com.intellij.ui.components.JBTextArea
+import com.intellij.openapi.util.text.StringUtil
 import com.intellij.ui.components.JBTextField
+import com.intellij.ui.components.fields.ExpandableTextField
+import com.intellij.util.Function
+import com.intellij.util.execution.ParametersListUtil
 import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
 import java.awt.Dimension
@@ -14,11 +16,17 @@ import javax.swing.JPanel
 
 class KeyValueDialog(project: Project, dialogTitle: String, val focusName: String, keyName: String?, value: String?) :
     DialogWrapper(project) {
+    var rawValue = ""
     val keyField = JBTextField()
-    val valueField = JBTextArea()
+    val valueField = ExpandableTextField(
+        ParametersListUtil.DEFAULT_LINE_PARSER,
+        Function { lines: MutableList<String> ->
+            rawValue = StringUtil.join(lines, "\n")
+            rawValue
+        })
 
     val key: String get() = keyField.text
-    val value: String get() = valueField.text.trimEnd()
+    val value: String get() = rawValue.ifEmpty { valueField.text.trimEnd() }
 
     init {
         title = dialogTitle
@@ -61,15 +69,10 @@ class KeyValueDialog(project: Project, dialogTitle: String, val focusName: Strin
         c.fill = java.awt.GridBagConstraints.BOTH
 
         // Configure textarea to look like a text field initially, but allow multi-line and resizing
-        valueField.lineWrap = true
-        valueField.wrapStyleWord = true
         // Make it visually similar to text field initially (single-line height)
         valueField.border = keyField.border
         valueField.preferredSize = Dimension(480, keyField.preferredSize.height)
-
-        val valueScroll = JBScrollPane(valueField)
-        valueScroll.border = null
-        form.add(valueScroll, c)
+        form.add(valueField, c)
 
         panel.add(form, BorderLayout.CENTER)
         return panel
