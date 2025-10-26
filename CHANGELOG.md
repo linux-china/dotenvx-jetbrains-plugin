@@ -4,7 +4,7 @@
 
 ## [Unreleased]
 
-## [0.1.19] - 2025-10-14
+## [0.1.19] - 2025-10-26
 
 ### Added
 
@@ -15,7 +15,6 @@
 ### Added
 
 - Add intention action to copy private key for `.env` and `properties` files.
-- Change value input to `ExpandableTextField`: please expand to input multi-line value.
 
 ## [0.1.17] - 2025-09-23
 
