@@ -8,7 +8,7 @@
 
 ### Added
 
-- Add private key with metadata support: `123xef{metadata}`
+- Add private key with metadata support: `123aef{metadata}`
 
 ## [0.1.19] - 2025-10-26
 
