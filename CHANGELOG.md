@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.20] - 2025-12-03
+
+### Added
+
+- Add private key with metadata support: `123xef{metadata}`
+
 ## [0.1.19] - 2025-10-26
 
 ### Added
