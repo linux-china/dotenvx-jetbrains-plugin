@@ -52,6 +52,17 @@ object DotenvxEncryptor {
         return null
     }
 
+    fun trimPrivateKey(privateKey: String?): String? {
+        if (privateKey == null) {
+            return null
+        }
+        return if (privateKey.contains("{")) {
+            privateKey.substringBefore('{')
+        } else {
+            privateKey
+        }
+    }
+
     fun getDotenvxPrivateKey(projectDir: String, profileName: String?, publicKeyHex: String?): String? {
         // check keys cache
         if (publicKeyHex != null && keysCache.contains(publicKeyHex)) {
@@ -63,7 +74,7 @@ object DotenvxEncryptor {
             if (globalStore.containsKey(publicKeyHex)) {
                 val keyPair = globalStore[publicKeyHex]
                 if (keyPair is Map<*, *>) {
-                    val privateKey = keyPair["private_key"].toString()
+                    val privateKey = trimPrivateKey(keyPair["private_key"].toString())!!
                     keysCache[publicKeyHex] = privateKey
                     return privateKey
                 }
@@ -92,6 +103,7 @@ object DotenvxEncryptor {
                 privateKey = keysEnv.get(privateKeyEnvName)
             }
         }
+        privateKey = trimPrivateKey(privateKey)
         if (!privateKey.isNullOrEmpty() && publicKeyHex != null) {
             keysCache[publicKeyHex] = privateKey
         }
