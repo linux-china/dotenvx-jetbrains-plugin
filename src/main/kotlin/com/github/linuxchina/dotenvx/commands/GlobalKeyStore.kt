@@ -36,8 +36,8 @@ object GlobalKeyStore {
             var keyStore: Map<String, Any> =
                 objectMapper.readValue(
                     keysFile,
-                    Map::class.java as Class<Map<String, Any>>
-                )
+                    Map::class.java
+                ) as Map<String, Any>
             if (keyStore.containsKey("version") && keyStore.containsKey("keys")) {
                 keyStore = keyStore["keys"] as Map<String, Any>
             }
