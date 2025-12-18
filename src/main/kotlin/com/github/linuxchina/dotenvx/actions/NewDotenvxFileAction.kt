@@ -3,6 +3,7 @@ package com.github.linuxchina.dotenvx.actions
 import com.fasterxml.uuid.Generators
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
 import com.github.linuxchina.dotenvx.commands.GlobalKeyStore
+import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -28,8 +29,9 @@ class NewDotenvxFileAction : AnAction(), DumbAware {
     override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
 
     override fun update(e: AnActionEvent) {
-        val targetDir = e.getData(LangDataKeys.PROJECT_FILE_DIRECTORY)
-        e.presentation.isEnabledAndVisible = targetDir != null
+        super.update(e)
+        val myPlace = e.place
+        e.presentation.isEnabledAndVisible = myPlace == ActionPlaces.PROJECT_VIEW_POPUP
     }
 
     override fun actionPerformed(e: AnActionEvent) {
