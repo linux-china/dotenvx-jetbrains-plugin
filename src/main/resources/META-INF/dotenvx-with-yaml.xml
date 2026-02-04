@@ -1,0 +1,28 @@
+<!--suppress PluginXmlI18n -->
+<idea-plugin>
+    <depends>org.jetbrains.plugins.yaml</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.declarativeInlayProvider language="yaml"
+                                              implementationClass="com.github.linuxchina.dotenvx.hints.DotenvxYamlInlayHintsProvider"
+                                              isEnabledByDefault="true"
+                                              group="VALUES_GROUP"
+                                              providerId="dotenvx.implicit.yaml"
+                                              bundle="messages.DotenvxBundle"
+                                              descriptionKey="dotenvx.inlay.description"
+                                              nameKey="dotenvx.implicit.value.inlay.provider.name"/>
+        <codeInsight.lineMarkerProvider language="yaml"
+                                        implementationClass="com.github.linuxchina.dotenvx.marker.YamlFileLineMarkerProvider"/>
+        <annotator language="yaml"
+                   implementationClass="com.github.linuxchina.dotenvx.highlight.YamlFileHighlighterAnnotator"/>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EncryptYamlValueIntention</className>
+            <category>Dotenvx</category>
+            <language>yaml</language>
+        </intentionAction>
+        <intentionAction>
+            <className>com.github.linuxchina.dotenvx.intentions.EditYamlValueIntention</className>
+            <category>Dotenvx</category>
+            <language>yaml</language>
+        </intentionAction>
+    </extensions>
+</idea-plugin>
