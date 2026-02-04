@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.21] - 2026-02-04
+
+### Added
+
+- Introduce `dotenvx-with-yaml.xml` to be compatible with WebStorm 2026.1 EAP
+
 ## [0.1.20] - 2025-12-03
 
 ### Added
