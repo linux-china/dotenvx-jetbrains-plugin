@@ -10,6 +10,7 @@
     <depends optional="true" config-file="dotenvx-goland.xml">org.jetbrains.plugins.go</depends>
     <depends optional="true" config-file="dotenvx-with-properties.xml">com.intellij.properties</depends>
     <depends optional="true" config-file="dotenvx-with-toml.xml">org.toml.lang</depends>
+    <depends optional="true" config-file="dotenvx-with-yaml.xml">org.jetbrains.plugins.yaml</depends>
     <depends optional="true" config-file="dotenvx-idea.xml">com.intellij.java</depends>
     <depends optional="true" config-file="dotenvx-nodejs.xml">NodeJS</depends>
     <depends optional="true" config-file="dotenvx-python.xml">com.intellij.modules.python</depends>
@@ -25,14 +26,6 @@
                                               isEnabledByDefault="true"
                                               group="VALUES_GROUP"
                                               providerId="dotenvx.implicit.dotenv"
-                                              bundle="messages.DotenvxBundle"
-                                              descriptionKey="dotenvx.inlay.description"
-                                              nameKey="dotenvx.implicit.value.inlay.provider.name"/>
-        <codeInsight.declarativeInlayProvider language="yaml"
-                                              implementationClass="com.github.linuxchina.dotenvx.hints.DotenvxYamlInlayHintsProvider"
-                                              isEnabledByDefault="true"
-                                              group="VALUES_GROUP"
-                                              providerId="dotenvx.implicit.yaml"
                                               bundle="messages.DotenvxBundle"
                                               descriptionKey="dotenvx.inlay.description"
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
@@ -54,26 +47,17 @@
                                               nameKey="dotenvx.implicit.value.inlay.provider.name"/>
         <codeInsight.lineMarkerProvider language="DotEnv"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.EnvFileLineMarkerProvider"/>
-        <codeInsight.lineMarkerProvider language="yaml"
-                                        implementationClass="com.github.linuxchina.dotenvx.marker.YamlFileLineMarkerProvider"/>
         <codeInsight.lineMarkerProvider language="JSON"
                                         implementationClass="com.github.linuxchina.dotenvx.marker.JsonFileLineMarkerProvider"/>
 
         <annotator language="DotEnv"
                    implementationClass="com.github.linuxchina.dotenvx.highlight.EnvFileHighlighterAnnotator"/>
-        <annotator language="yaml"
-                   implementationClass="com.github.linuxchina.dotenvx.highlight.YamlFileHighlighterAnnotator"/>
 
         <copyPastePreProcessor implementation="com.github.linuxchina.dotenvx.processor.PasteEncryptPreProcessor"/>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EncryptEnvValueIntention</className>
             <category>Dotenvx</category>
             <language>DotEnv</language>
-        </intentionAction>
-        <intentionAction>
-            <className>com.github.linuxchina.dotenvx.intentions.EncryptYamlValueIntention</className>
-            <category>Dotenvx</category>
-            <language>yaml</language>
         </intentionAction>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EditEnvValueIntention</className>
@@ -94,11 +78,6 @@
             <className>com.github.linuxchina.dotenvx.intentions.EncryptXmlValueIntention</className>
             <category>Dotenvx</category>
             <language>XML</language>
-        </intentionAction>
-        <intentionAction>
-            <className>com.github.linuxchina.dotenvx.intentions.EditYamlValueIntention</className>
-            <category>Dotenvx</category>
-            <language>yaml</language>
         </intentionAction>
         <intentionAction>
             <className>com.github.linuxchina.dotenvx.intentions.EditJsonValueIntention</className>
