@@ -46,6 +46,7 @@ dependencies {
 
 configurations.implementation {
     exclude(group = "com.fasterxml.jackson.core", module = "jackson-databind")
+    exclude(group = "org.bouncycastle", module = "bcprov-jdk18on")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
