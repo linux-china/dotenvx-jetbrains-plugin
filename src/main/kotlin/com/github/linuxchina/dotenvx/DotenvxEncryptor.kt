@@ -32,6 +32,34 @@ object DotenvxEncryptor {
         keysCache[publicKey] = privateKey
     }
 
+    /**
+     * Scan a line-based env/properties file content and return the names of keys whose value is
+     * sensitive but NOT encrypted.
+     *
+     * Returns an empty list when the file does not declare a public key (i.e. dotenvx encryption is
+     * not enabled for this file), so unrelated files are never flagged. Only `key=value` / `key:value`
+     * line formats are handled (.env, .properties); structured formats are out of scope here.
+     */
+    fun findUnencryptedSensitiveKeys(content: String): List<String> {
+        if (!content.contains("DOTENV_PUBLIC_KEY") && !content.contains("dotenv.public.key")) {
+            return emptyList()
+        }
+        val result = mutableListOf<String>()
+        for (rawLine in content.lines()) {
+            val line = rawLine.trim()
+            if (line.isEmpty() || line.startsWith("#") || line.startsWith("//")) continue
+            val sepIndex = line.indexOfFirst { it == '=' || it == ':' }
+            if (sepIndex <= 0) continue
+            val key = line.substring(0, sepIndex).removePrefix("export ").trim()
+            val value = line.substring(sepIndex + 1).trim().trim('"', '\'')
+            if (value.isEmpty() || value.startsWith("encrypted:")) continue
+            if (isSensitiveKey(key.lowercase())) {
+                result.add(key)
+            }
+        }
+        return result
+    }
+
     fun findPublicKey(file: PsiFile): String? {
         if (file is YAMLFile) {
             val publicKeyElement = YAMLUtil.getQualifiedKeyInFile(file, "dotenv", "public", "key")
