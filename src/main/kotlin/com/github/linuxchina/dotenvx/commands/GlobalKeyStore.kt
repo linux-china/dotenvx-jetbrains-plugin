@@ -3,9 +3,13 @@ package com.github.linuxchina.dotenvx.commands
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.uuid.Generators
 import com.github.linuxchina.dotenvx.DotenvxEncryptor
+import com.intellij.openapi.ui.Messages
 import io.github.cdimascio.ecies.Ecies
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.file.attribute.PosixFilePermissions
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
@@ -78,9 +82,34 @@ object GlobalKeyStore {
             keysFile.parentFile.mkdirs()
         }
         try {
+            // restrict the .dotenvx directory to the owner only (700)
+            setPosixPermissions(keysFile.parentFile.toPath(), "rwx------")
+            // create the keys file with 600 permissions before writing any secret,
+            // so the private keys are never world-readable, not even briefly
+            if (!keysFile.exists()) {
+                keysFile.createNewFile()
+            }
+            setPosixPermissions(keysFilePath, "rw-------")
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(keysFile, globalStore)
             DotenvxEncryptor.cacheKeyPair(keyPair.publicKey, keyPair.privateKey)
         } catch (e: Exception) {
+            Messages.showErrorDialog(
+                "Failed to save the key pair to $keysFilePath: ${e.message}",
+                "Dotenvx Key Store Error"
+            )
+        }
+    }
+
+    /**
+     * Apply POSIX permissions (e.g. "rw-------") to the given path.
+     * No-op on file systems that do not support POSIX permissions (e.g. Windows).
+     */
+    private fun setPosixPermissions(path: Path, permissions: String) {
+        try {
+            if (path.fileSystem.supportedFileAttributeViews().contains("posix")) {
+                Files.setPosixFilePermissions(path, PosixFilePermissions.fromString(permissions))
+            }
+        } catch (_: Exception) {
         }
     }
 }
