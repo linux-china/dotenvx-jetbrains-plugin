@@ -64,7 +64,11 @@ class DotenvxEnvCollector(val publicKey: String?, val privateKey: String?) :
                             }
                         }
                 } catch (_: Exception) {
-
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                    ) {
+                        text(DotenvxEncryptor.UNABLE_TO_DECRYPT)
+                    }
                 }
             } else if (publicKey != null && text.contains(publicKey)) {
                 if (privateKey.isNullOrEmpty()) {

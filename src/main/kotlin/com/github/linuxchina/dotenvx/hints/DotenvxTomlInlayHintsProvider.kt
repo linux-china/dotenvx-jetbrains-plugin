@@ -59,7 +59,11 @@ class DotenvxTomlCollector(val publicKey: String, val privateKey: String?) : Sha
                             }
                         }
                 } catch (_: Exception) {
-
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset, true), hintFormat = HintFormat.default,
+                    ) {
+                        text(DotenvxEncryptor.UNABLE_TO_DECRYPT)
+                    }
                 }
             }
         } else if (element is PsiComment && element.text.contains(publicKey)) {

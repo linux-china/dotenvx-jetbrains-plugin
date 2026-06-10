@@ -12,6 +12,8 @@ import java.util.*
 
 object DotenvxEncryptor {
     private val keysCache = mutableMapOf<String, String>()
+    /** Inlay text shown when an encrypted value cannot be decrypted (wrong key or corrupted value). */
+    const val UNABLE_TO_DECRYPT = "unable to decrypt"
 
     fun isSensitiveKey(keyNameLower: String): Boolean {
         if (keyNameLower.startsWith("dotenv.public.key") || keyNameLower.startsWith("dotenv_public_key")) {
@@ -69,7 +71,7 @@ object DotenvxEncryptor {
             return keysCache[publicKeyHex]
         }
         // load the private key from the global store: .env.keys.json
-        if (publicKeyHex != null && !publicKeyHex.isEmpty()) {
+        if (!publicKeyHex.isNullOrEmpty()) {
             val globalStore: Map<String, Any> = GlobalKeyStore.getGlobalKeyPairs()
             if (globalStore.containsKey(publicKeyHex)) {
                 val keyPair = globalStore[publicKeyHex]

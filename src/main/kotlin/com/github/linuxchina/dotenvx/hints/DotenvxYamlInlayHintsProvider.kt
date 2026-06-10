@@ -56,7 +56,11 @@ class DotenvxYamlCollector(val publicKey: String, val privateKey: String?) : Sha
                             }
                         }
                 } catch (_: Exception) {
-
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset, false), hintFormat = HintFormat.default,
+                    ) {
+                        text(DotenvxEncryptor.UNABLE_TO_DECRYPT)
+                    }
                 }
             } else if (textValue == publicKey) {
                 if (privateKey.isNullOrEmpty()) {

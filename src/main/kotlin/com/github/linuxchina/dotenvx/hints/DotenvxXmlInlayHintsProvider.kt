@@ -48,11 +48,11 @@ class DotenvxXmlCollector(val publicKey: String, val privateKey: String?) : Shar
             val rawTextValue = element.text
             val textValue = element.text.trim()
             if ((textValue.startsWith("encrypted:") || textValue.startsWith("\"encrypted:")) && privateKey != null) {
+                var offset = (rawTextValue.length - textValue.length) / 2
+                if (offset > 2) {
+                    offset -= 2
+                }
                 try {
-                    var offset = (rawTextValue.length - textValue.length) / 2
-                    if (offset > 2) {
-                        offset -= 2
-                    }
                     DotenvxEncryptor.decrypt(textValue.trim('"'), privateKey)
                         .let { decryptedValue ->
                             if (decryptedValue.isNotEmpty()) {
@@ -65,7 +65,12 @@ class DotenvxXmlCollector(val publicKey: String, val privateKey: String?) : Shar
                             }
                         }
                 } catch (_: Exception) {
-
+                    sink.addPresentation(
+                        InlineInlayPosition(element.endOffset - offset, true),
+                        hintFormat = HintFormat.default,
+                    ) {
+                        text(DotenvxEncryptor.UNABLE_TO_DECRYPT)
+                    }
                 }
             }
         } else if (element is XmlComment && element.text.contains(publicKey)) {
