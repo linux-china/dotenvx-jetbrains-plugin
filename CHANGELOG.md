@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+## [0.1.22] - 2026-06-10
+
+### Added
+
+- Exclude `bcprov-jdk18on` to be compatible with IntelliJ Platform
+- Change file attribute to `600` when to create .env.keys.json file
+- Add `unable to decrypt` error message when failed to decrypt a variable
+- Add a VCS check-in handler when sensitive, not encrypted
+
 ## [0.1.21] - 2026-02-04
 
 ### Added
