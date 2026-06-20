@@ -12,6 +12,7 @@ import java.util.*
 
 object DotenvxEncryptor {
     private val keysCache = mutableMapOf<String, String>()
+
     /** Inlay text shown when an encrypted value cannot be decrypted (wrong key or corrupted value). */
     const val UNABLE_TO_DECRYPT = "unable to decrypt"
 
@@ -19,7 +20,20 @@ object DotenvxEncryptor {
         if (keyNameLower.startsWith("dotenv.public.key") || keyNameLower.startsWith("dotenv_public_key")) {
             return false
         }
-        val keyWords = listOf("password", "secret", "private", "key", "token", "credential")
+        val keyWords = listOf(
+            "password",
+            "pwd",
+            "passwd",
+            "passphrase",
+            "jwt",
+            "auth",
+            "secret",
+            "private",
+            "jaas",
+            "key",
+            "token",
+            "credential"
+        )
         for (keyword in keyWords) {
             if (keyNameLower.contains(keyword)) {
                 return true
