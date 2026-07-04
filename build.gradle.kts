@@ -26,7 +26,7 @@ repositories {
 dependencies {
     implementation("org.mvnsearch:dotenvx-java:0.2.4")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
-    implementation("com.fasterxml.uuid:java-uuid-generator:5.1.0")
+    implementation("com.fasterxml.uuid:java-uuid-generator:5.2.0")
     testImplementation(libs.junit)
     testImplementation(libs.opentest4j)
 
