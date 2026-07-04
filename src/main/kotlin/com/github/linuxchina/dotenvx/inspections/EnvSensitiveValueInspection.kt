@@ -36,6 +36,8 @@ class EnvSensitiveValueInspection : LocalInspectionTool() {
                     if (valueText.startsWith("encrypted:")) return
                     val keyElement = PsiTreeUtil.findSiblingBackward(element, DotEnvTypes.KEY, null) ?: return
                     val keyLower = keyElement.text.lowercase()
+                    // don't check keys containing _plain
+                    if (keyLower.contains("_plain")) return
                     if (DotenvxEncryptor.isSensitiveKey(keyLower)) {
                         if (element.containingFile.text.contains("DOTENV_PUBLIC_KEY")) {
                             holder.registerProblem(
