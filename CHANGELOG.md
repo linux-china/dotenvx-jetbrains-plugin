@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.23] - 2026-07-04
+
+### Added
+
+- Don't check keys containing `_plain` for encryption
+
 ## [0.1.22] - 2026-06-10
 
 ### Added
