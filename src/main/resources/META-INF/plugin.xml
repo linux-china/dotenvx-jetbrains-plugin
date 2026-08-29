@@ -22,6 +22,7 @@
     <depends>ru.adelf.idea.dotenv</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <errorHandler implementation="com.intellij.diagnostic.JetBrainsMarketplaceErrorReportSubmitter"/>
         <codeInsight.declarativeInlayProvider language="DotEnv"
                                               implementationClass="com.github.linuxchina.dotenvx.hints.DotenvxEnvInlayHintsProvider"
                                               isEnabledByDefault="true"
