@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+## [0.1.24] - 2026-08-29
+
+### Added
+
+- Fix public key parsing issue when DOTENV_PUBLIC_KEY appears in a comment
+- Fix key/value insertion for YAML/TOML file
+
 ## [0.1.23] - 2026-07-04
 
 ### Added
