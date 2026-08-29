@@ -26,8 +26,8 @@ class PycharmEnvironmentProvider :
             runParams.getCopyableUserData<DotenvxSettings?>(RunConfigSettingsEditor.USER_DATA_KEY)
         val dotenvxVariables: MutableMap<String, String> =
             RunConfigSettingsEditor.collectEnv(dotenvxSettings, runParams.workingDirectory)
-        for (entry in dotenvxVariables.entries) {
-            pythonExecution.addEnvironmentVariable(entry.key, entry.value)
+        for ((key, value) in dotenvxVariables) {
+            pythonExecution.addEnvironmentVariable(key, value)
         }
     }
 }
