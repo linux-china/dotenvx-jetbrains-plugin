@@ -37,11 +37,11 @@ class AddEncryptedValueAction : AnAction(), DumbAware {
         val caretModel = editor.caretModel
         val offset = caretModel.offset
         val keyName = DotenvxFileUtils.getKeyNameOnLine(psiFile.name, editor)
-
-        val dialog = KeyValueDialog(project, "Add encrypted value", "value", keyName, null)
-        dialog.keyField.isEditable = false
+        val focusComponentName = if (keyName.isEmpty()) "key" else "value"
+        val dialog = KeyValueDialog(project, "Add encrypted value", focusComponentName, keyName, null)
         if (!dialog.showAndGet()) return
 
+        val newKeyName = dialog.keyField.text
         val value = dialog.value.trim()
         if (value.isEmpty()) {
             Messages.showErrorDialog(project, "Value must not be empty", "Invalid Input")
@@ -55,7 +55,12 @@ class AddEncryptedValueAction : AnAction(), DumbAware {
         }
 
         WriteCommandAction.runWriteCommandAction(project) {
-            document.insertString(offset, newValue)
+            if (keyName.isNotEmpty()) {
+                document.insertString(offset, "\"${newValue}\"")
+            } else {
+                val pair = "$newKeyName = \"${newValue}\""
+                document.insertString(offset, pair)
+            }
             PsiDocumentManager.getInstance(project).commitDocument(document)
         }
 
