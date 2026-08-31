@@ -209,12 +209,23 @@ object DotenvxEncryptor {
         }
     }
 
+    private fun unquoteEnvValue(value: String): String {
+        return value.trim()
+            .removeSurrounding("\"")
+            .removeSurrounding("'")
+    }
+
     fun decrypt(cipherText: String, privateKey: String): String {
         val cleanPrivateKey = if (privateKey.length > 64) {
             privateKey.substring(privateKey.length - 64)
         } else {
             privateKey
         }
-        return Ecies.decrypt(cleanPrivateKey, cipherText.substringAfter("encrypted:"))
+        // dotenvx CLI writes .env values in quotes, while values created by the plugin are
+        // currently unquoted. PSI may therefore pass either `encrypted:...` or
+        // `"encrypted:..."` here. Strip only a matching pair of surrounding dotenv quotes;
+        // otherwise the closing quote becomes part of the encoded ECIES payload.
+        val normalizedCipherText = unquoteEnvValue(cipherText)
+        return Ecies.decrypt(cleanPrivateKey, normalizedCipherText.substringAfter("encrypted:"))
     }
 }

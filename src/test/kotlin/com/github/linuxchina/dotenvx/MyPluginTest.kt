@@ -49,6 +49,16 @@ class MyPluginTest : BasePlatformTestCase() {
         assertEquals("0123456789abcdef", DotenvxEncryptor.findPublicKey(psiFile))
     }
 
+    fun testDecryptSupportsQuotedAndUnquotedEnvValues() {
+        val privateKey = "0000000000000000000000000000000000000000000000000000000000000001"
+        val publicKey = "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
+        val encrypted = DotenvxEncryptor.encrypt("1234567890", publicKey)
+
+        assertEquals("1234567890", DotenvxEncryptor.decrypt(encrypted, privateKey))
+        assertEquals("1234567890", DotenvxEncryptor.decrypt("\"$encrypted\"", privateKey))
+        assertEquals("1234567890", DotenvxEncryptor.decrypt("'$encrypted'", privateKey))
+    }
+
 
     override fun getTestDataPath() = "src/test/testData/rename"
 }
