@@ -72,14 +72,14 @@ class AddKeyValueAction : AnAction(), DumbAware {
             val match = kvRegex.find(document.text)
             if (match != null) {
                 WriteCommandAction.runWriteCommandAction(project) {
-                    val newLine = "$key=$escapedNewValue"
+                    val newLine = "$key=\"$escapedNewValue\""
                     val start = match.range.first
                     val end = match.range.last + 1
                     document.replaceString(start, end, newLine)
                     PsiDocumentManager.getInstance(project).commitDocument(document)
                 }
             } else {
-                appendLineToFile(project, psiFile, "$key=$escapedNewValue")
+                appendLineToFile(project, psiFile, "$key=\"$escapedNewValue\"")
             }
         }
     }

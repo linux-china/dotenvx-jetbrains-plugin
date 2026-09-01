@@ -215,6 +215,13 @@ object DotenvxEncryptor {
         } else {
             privateKey
         }
-        return Ecies.decrypt(cleanPrivateKey, cipherText.substringAfter("encrypted:"))
+        val normalizedCipherText = unquoteEnvValue(cipherText)
+        return Ecies.decrypt(cleanPrivateKey, normalizedCipherText.substringAfter("encrypted:"))
+    }
+
+    private fun unquoteEnvValue(value: String): String {
+        return value.trim()
+            .removeSurrounding("\"")
+            .removeSurrounding("'")
     }
 }

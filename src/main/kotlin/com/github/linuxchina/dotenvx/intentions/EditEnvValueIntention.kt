@@ -72,7 +72,7 @@ class EditEnvValueIntention : PsiElementBaseIntentionAction(), DumbAware, Iconab
         }
         WriteCommandAction.runWriteCommandAction(project) {
             val range = envValue.textRange
-            document.replaceString(range.startOffset, range.endOffset, encryptedValue)
+            document.replaceString(range.startOffset, range.endOffset, "\"$encryptedValue\"")
             PsiDocumentManager.getInstance(project).commitDocument(document)
         }
     }

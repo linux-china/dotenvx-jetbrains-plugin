@@ -107,7 +107,7 @@ ${publicKeyText.trim()}
 # name: $appName
 # group: $groupName
 # ---
-${publicKeyName}=${keyPair.publicKey}
+${publicKeyName}=\"${keyPair.publicKey}\"
 
 # Environment variables. MAKE SURE to ENCRYPT them before committing to source control
 """
