@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [0.1.25] - 2026-09-01
+
+### Added
+
+- Double quote for encrypted value and public key in `.env` files
+
 ## [0.1.24] - 2026-08-29
 
 ### Added
